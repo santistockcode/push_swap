@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 
+
+# Color codes
+BLUE="\033[34m"
+YELLOW="\033[93m"
+GREEN="\033[32m"
+RED="\033[31m"
+RESET="\033[0m"
+
+
 # ------------------------------------------------------------------------------
 # 1. Configuration
 # ------------------------------------------------------------------------------
 # List all sub-projects (folder names) under examples/
-PROJECTS=("ayogun" "hu8813")
+PROJECTS=("ayogun" "hu8813" "suspectedoceano" "mcombeau" "beatrizdile" "sisittu99" "madebypixel02" "raulmarcano" "gjmacias" "42YerevanProjects")
 
 # Where checker_linux is located
 CHECKER="./checker_linux"
@@ -80,9 +89,9 @@ function test_stack_size() {
 
     # Compare average instructions to threshold
     if [ "$avg_instructions" -le "$THRESHOLD" ]; then
-        echo "     Performance: PASS (<= $THRESHOLD)"
+    echo -e "     ${GREEN}Performance: PASS (<= $THRESHOLD)${RESET}"
     else
-        echo "     Performance: FAIL (> $THRESHOLD)"
+    echo -e "     ${RED}Performance: FAIL (> $THRESHOLD)${RESET}"
     fi
     echo
 }
@@ -96,7 +105,7 @@ echo "Running tests for each project..."
 echo "============================================================="
 
 for prj in "${PROJECTS[@]}"; do
-    echo -e "\n=== Testing Project: $prj ==="
+    echo -e "\n${YELLOW}=== Testing Project: $prj ===${RESET}"
     PROJECT_PATH="examples/$prj"
     PUSH_SWAP="$PROJECT_PATH/push_swap"
 

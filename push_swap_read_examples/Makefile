@@ -3,7 +3,7 @@
 # **************************************************************************** #
 
 # List all sub-project folders
-PROJECTS = ayogun hu8813
+PROJECTS = ayogun hu8813 suspectedoceano mcombeau beatrizdile sisittu99 madebypixel02 raulmarcano gjmacias 42YerevanProjects
 
 all:
 	@for prj in $(PROJECTS); do \
