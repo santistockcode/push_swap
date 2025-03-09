@@ -53,24 +53,18 @@ BPURPLE   := \033[1;35m
 
 SRCS		= src/main.c \
 	src/common.c \
-	src/input_parse.c
+	src/input_par_val.c
                          
 OBJS        := $(SRCS:.c=.o)
 
 ###############################################################################
 #                              TEST DIRECTORIES & FILES                       #
 ###############################################################################
-
 TEST_DIR = tests
 
-TEST_GET_MAP_SRCS  	= $(TEST_DIR)/test_get_map.c \
-	src/get_map/free_parsed_map.c \
-	src/get_map/parse_map.c \
-	src/get_map/validate_map_contents.c \
-	src/get_map/validate_map_playable.c \
-	src/common.c \
-	src/get_map/flood_fill.c
-TEST_GET_MAP_BIN     = $(TEST_DIR)/tests_get_map
+TEST_PAR_VAR_SRCS  	= $(TEST_DIR)/test_input_par_val.C
+
+TEST_PAR_VAR_BIN     = $(TEST_DIR)/tests_input_par_val
 
 ###############################################################################
 #                              DEFAULT RULES                                  #
@@ -105,13 +99,13 @@ $(LIBFT_LIB):
 ##
 ## 1) input parsing and validation tests
 ##
-test_get_map: $(TEST_GET_MAP_BIN) $(LIBFT_LIB)
-	@echo "$(YELLOW)Running get_map tests...$(CLR_RMV)"
-	$(SILENT)@./$(TEST_GET_MAP_BIN)
+test_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
+	@echo "$(YELLOW)Running input parsing and validation tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_PAR_VAR_BIN)
 	@echo "$(GREEN)Unit tests for get_map module passed!$(CLR_RMV)"
 
-$(TEST_GET_MAP_BIN): $(TEST_GET_MAP_SRCS)
-	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
+$(TEST_PAR_VAR_BIN): $(TEST_PAR_VAR_SRCS)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
 
 
 tval_get_map: $(TEST_GET_MAP_BIN) $(LIBFT_LIB)
