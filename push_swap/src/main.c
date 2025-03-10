@@ -10,11 +10,8 @@ int main(int argc, char **argv) {
     if (argc == 2) {
         argv  = ft_split_ps(argv[1]);
     }
-    // validate char **argv
-    write(1, "Split made by copilot: ", 6);
-    for (int i = 0; argv[i]; i++) {
-        write(1, argv[i], ft_strlen(argv[i]));
-        write(1, " ", 1);
+    if (!argv || !valid_input(argv)) {
+        return (print_error(), 1);
     }
     return (0);
 }

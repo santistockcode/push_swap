@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/31 08:15:57 by saalarco         ###   ########.fr        #
+#    Updated: 2025/03/10 19:34:57 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,8 +52,8 @@ BPURPLE   := \033[1;35m
 ################################################################################
 
 SRCS		= src/main.c \
-	src/common.c \
-	src/input_par_val.c
+	src/valid_input.c \
+	src/ft_split_ps.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -62,9 +62,11 @@ OBJS        := $(SRCS:.c=.o)
 ###############################################################################
 TEST_DIR = tests
 
-TEST_PAR_VAR_SRCS  	= $(TEST_DIR)/test_input_par_val.C
+TEST_PAR_VAR_SRCS  	= $(TEST_DIR)/test_split_par_var.c \
+	src/ft_split_ps.c \
+	src/valid_input.c
 
-TEST_PAR_VAR_BIN     = $(TEST_DIR)/tests_input_par_val
+TEST_PAR_VAR_BIN     = $(TEST_DIR)/tests_par_var
 
 ###############################################################################
 #                              DEFAULT RULES                                  #
@@ -101,7 +103,7 @@ $(LIBFT_LIB):
 ##
 test_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 	@echo "$(YELLOW)Running input parsing and validation tests...$(CLR_RMV)"
-	$(SILENT)@./$(TEST_PAR_VAR_BIN)
+	@./$(TEST_PAR_VAR_BIN)
 	@echo "$(GREEN)Unit tests for get_map module passed!$(CLR_RMV)"
 
 $(TEST_PAR_VAR_BIN): $(TEST_PAR_VAR_SRCS)
@@ -124,10 +126,10 @@ tfsanitize_get_map: $(TEST_GET_MAP_BIN) $(LIBFT_LIB)
 	$(SILENT)@./$(TEST_GET_MAP_BIN)
 	@echo "$(GREEN)Tests fsanitize get_map module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
 
-tlldb_get_map : $(TEST_GET_MAP_BIN) $(LIBFT_LIB) 
-	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
+test_pv_lldb : $(TEST_PAR_VAR_BIN) $(LIBFT_LIB) 
+	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	lldb ./$(TEST_GET_MAP_BIN)
+	lldb ./$(TEST_PAR_VAR_BIN)
 
 
 ###############################################################################
@@ -159,6 +161,6 @@ fclean: clean
 	@echo "$(RED)[Removing executables]$(CLR_RMV)"
 	$(SILENT)make -C $(LIBFT) fclean
 	$(SILENT)rm -rf $(NAME)
-	$(SILENT)rm -rf $(TEST_GET_MAP_BIN)
+	$(SILENT)rm -rf $(TEST_PAR_VAR_BIN)
 
 re: fclean all
