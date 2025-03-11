@@ -12,7 +12,8 @@ char **ft_split_ps(char *str);
 void	print_error();
 
 // This function checks if the input is valid
-int valid_input(char **argv);
+int valid_input_and_list(char **argv);
 
+void    free_argv(char **argv);
 
 #endif

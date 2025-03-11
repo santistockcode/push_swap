@@ -8,9 +8,10 @@ int main(int argc, char **argv) {
         return (1);
     }
     if (argc == 2) {
-        argv  = ft_split_ps(argv[1]);
+        argv  = ft_split_ps(argv[1]);        
     }
-    if (!argv || !valid_input(argv)) {
+    if (argv && !valid_input_and_list(argv)) {
+        free_argv(argv);
         return (print_error(), 1);
     }
     return (0);

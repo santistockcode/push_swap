@@ -53,9 +53,9 @@ char	*alloc_word(char	*str)
 
 	l = 0;
 	i = 0;
-	while (ft_issspace(str[cursor]))
+	while (str[cursor] && ft_issspace(str[cursor]))
 		cursor++;
-	while (!ft_issspace(str[cursor + l]))
+	while (str[cursor + l] && !ft_issspace(str[cursor + l]))
 		l++;
 	result = (char *) malloc ((l + 1) * sizeof(char));
 	if (!result)

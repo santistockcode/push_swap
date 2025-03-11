@@ -7,10 +7,17 @@ void	print_error()
     ft_putstr_fd("Error\n", 2);
 }
 
-int valid_input(char **argv)
+int valid_input_and_list(char **argv)
 {
-    // check for syntax errors and duplicates
-    // check for max and min values integers
-    printf("argv[0]: %s\n", argv[0]);
-    return (0);
+    while (*argv)
+    {
+        // check for syntax errors
+        
+        // atol
+        // check for max and min values integers 
+        // check for duplicates IS EASIER IF LIST ALREADY THERE
+        printf("Argument: %s\n", *argv);
+        argv++;
+    }
+    return (1);
 }

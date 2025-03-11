@@ -53,7 +53,8 @@ BPURPLE   := \033[1;35m
 
 SRCS		= src/main.c \
 	src/valid_input.c \
-	src/ft_split_ps.c
+	src/ft_split_ps.c \
+	src/parse_validation/error_syntax.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -64,7 +65,8 @@ TEST_DIR = tests
 
 TEST_PAR_VAR_SRCS  	= $(TEST_DIR)/test_split_par_var.c \
 	src/ft_split_ps.c \
-	src/valid_input.c
+	src/parse_validation/error_syntax.c \
+	src/parse_validation/ft_atol.c
 
 TEST_PAR_VAR_BIN     = $(TEST_DIR)/tests_par_var
 
@@ -104,27 +106,25 @@ $(LIBFT_LIB):
 test_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 	@echo "$(YELLOW)Running input parsing and validation tests...$(CLR_RMV)"
 	@./$(TEST_PAR_VAR_BIN)
-	@echo "$(GREEN)Unit tests for get_map module passed!$(CLR_RMV)"
+	@echo "$(GREEN)Unit tests for parsing and validation module passed!$(CLR_RMV)"
 
 $(TEST_PAR_VAR_BIN): $(TEST_PAR_VAR_SRCS)
 	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
 
+fsanitize_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
+	$(SILENT)$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
+	@echo "$(YELLOW)Running fsanitize input parsing and validation tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_PAR_VAR_BIN)
+	@echo "$(GREEN)Tests fsanitize input parsing and validation module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
 
-tval_get_map: $(TEST_GET_MAP_BIN) $(LIBFT_LIB)
-	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
-	@echo "$(YELLOW)Running valgrind get_map tests...$(CLR_RMV)"
+tval_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
+	@echo "$(YELLOW)Running valgrind input parsing and validation tests...$(CLR_RMV)"
 	$(SILENT)@valgrind --leak-check=full \
 			--show-leak-kinds=all \
 			--track-origins=yes \
-			--log-file=tests/valgrind_get_map.log \
-			./$(TEST_GET_MAP_BIN)
-	@echo "$(GREEN)Tests valgrind get_map module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
-
-tfsanitize_get_map: $(TEST_GET_MAP_BIN) $(LIBFT_LIB)
-	$(SILENT)$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
-	@echo "$(YELLOW)Running fsanitize get_map tests...$(CLR_RMV)"
-	$(SILENT)@./$(TEST_GET_MAP_BIN)
-	@echo "$(GREEN)Tests fsanitize get_map module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
+			./$(TEST_PAR_VAR_BIN)
+	@echo "$(GREEN)Tests valgrind input parsing and validation module ok or not! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
 
 test_pv_lldb : $(TEST_PAR_VAR_BIN) $(LIBFT_LIB) 
 	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
@@ -156,11 +156,11 @@ clean:
 	@echo "$(RED)[Cleaning objects]$(CLR_RMV)"
 	$(SILENT)rm -rf $(OBJS)
 	$(SILENT)make -C $(LIBFT) clean
+	$(SILENT)rm -rf $(TEST_PAR_VAR_BIN)
 
 fclean: clean
 	@echo "$(RED)[Removing executables]$(CLR_RMV)"
 	$(SILENT)make -C $(LIBFT) fclean
 	$(SILENT)rm -rf $(NAME)
-	$(SILENT)rm -rf $(TEST_PAR_VAR_BIN)
 
 re: fclean all
