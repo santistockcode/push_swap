@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/03/10 19:34:57 by saalarco         ###   ########.fr        #
+#    Updated: 2025/03/14 08:19:39 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,9 +52,12 @@ BPURPLE   := \033[1;35m
 ################################################################################
 
 SRCS		= src/main.c \
-	src/valid_input.c \
+	src/valid_input_and_list.c \
 	src/ft_split_ps.c \
-	src/parse_validation/error_syntax.c
+	src/parse_validation/error_syntax.c \
+	src/parse_validation/free_argv.c \
+	src/print_list.c \
+	src/parse_validation/ft_atol.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -66,9 +69,42 @@ TEST_DIR = tests
 TEST_PAR_VAR_SRCS  	= $(TEST_DIR)/test_split_par_var.c \
 	src/ft_split_ps.c \
 	src/parse_validation/error_syntax.c \
-	src/parse_validation/ft_atol.c
+	src/parse_validation/ft_atol.c \
+	src/valid_input_and_list.c
 
 TEST_PAR_VAR_BIN     = $(TEST_DIR)/tests_par_var
+
+TESTS_SPLIT_SRCS1	= $(TEST_DIR)/test_split_1.c \
+	src/ft_split_ps.c \
+	src/parse_validation/error_syntax.c \
+	src/parse_validation/ft_atol.c \
+	src/valid_input_and_list.c
+
+TESTS_SPLIT_BIN1	= $(TEST_DIR)/test_split_1
+
+TESTS_SPLIT_SRCS2	= $(TEST_DIR)/test_split_2.c \
+	src/ft_split_ps.c \
+	src/parse_validation/error_syntax.c \
+	src/parse_validation/ft_atol.c \
+	src/valid_input_and_list.c
+
+TESTS_SPLIT_BIN2	= $(TEST_DIR)/test_split_2
+
+TESTS_SPLIT_SRCS3	= $(TEST_DIR)/test_split_3.c \
+	src/ft_split_ps.c \
+	src/parse_validation/error_syntax.c \
+	src/parse_validation/ft_atol.c \
+	src/valid_input_and_list.c
+
+TESTS_SPLIT_BIN3	= $(TEST_DIR)/test_split_3
+
+TESTS_SPLIT_SRCS4	= $(TEST_DIR)/test_split_4.c \
+	src/ft_split_ps.c \
+	src/parse_validation/error_syntax.c \
+	src/parse_validation/ft_atol.c \
+	src/valid_input_and_list.c
+
+TESTS_SPLIT_BIN4	= $(TEST_DIR)/test_split_4
 
 ###############################################################################
 #                              DEFAULT RULES                                  #
@@ -115,7 +151,7 @@ fsanitize_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 	$(SILENT)$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
 	@echo "$(YELLOW)Running fsanitize input parsing and validation tests...$(CLR_RMV)"
 	$(SILENT)@./$(TEST_PAR_VAR_BIN)
-	@echo "$(GREEN)Tests fsanitize input parsing and validation module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
+	@echo "$(GREEN)Tests fsanitize input parsing and validation module passed! $(CLR_RMV)"
 
 tval_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
@@ -126,11 +162,36 @@ tval_par_var: $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 			./$(TEST_PAR_VAR_BIN)
 	@echo "$(GREEN)Tests valgrind input parsing and validation module ok or not! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
 
+tests_split: $(LIBFT_LIB)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TESTS_SPLIT_SRCS1) $(LIBS) -o $(TESTS_SPLIT_BIN1)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TESTS_SPLIT_SRCS2) $(LIBS) -o $(TESTS_SPLIT_BIN2)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TESTS_SPLIT_SRCS3) $(LIBS) -o $(TESTS_SPLIT_BIN3)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TESTS_SPLIT_SRCS4) $(LIBS) -o $(TESTS_SPLIT_BIN4)
+	$(SILENT)@echo "$(YELLOW)Running valgrind tests for ft_split_ps...$(CLR_RMV)"
+	$(SILENT)@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TESTS_SPLIT_BIN1)
+	$(SILENT)@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TESTS_SPLIT_BIN2)			
+	$(SILENT)@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TESTS_SPLIT_BIN3)
+	$(SILENT)@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TESTS_SPLIT_BIN4)
+	@echo "$(GREEN)Tests valgrind ft_split_ps module ok (check above)! $(CLR_RMV)"
+
+
 test_pv_lldb : $(TEST_PAR_VAR_BIN) $(LIBFT_LIB) 
 	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
 	lldb ./$(TEST_PAR_VAR_BIN)
-
+	
 
 ###############################################################################
 #                              CI-LIKE PIPELINE                               #
@@ -157,6 +218,11 @@ clean:
 	$(SILENT)rm -rf $(OBJS)
 	$(SILENT)make -C $(LIBFT) clean
 	$(SILENT)rm -rf $(TEST_PAR_VAR_BIN)
+	$(SILENT)rm -rf $(TESTS_SPLIT_BIN1)
+	$(SILENT)rm -rf $(TESTS_SPLIT_BIN2)
+	$(SILENT)rm -rf $(TESTS_SPLIT_BIN3)
+	$(SILENT)rm -rf $(TESTS_SPLIT_BIN4)
+	
 
 fclean: clean
 	@echo "$(RED)[Removing executables]$(CLR_RMV)"

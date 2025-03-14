@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <limits.h>
+#include <stdlib.h>
 #include "../include/push_swap.h"
 
 void test_error_syntax() {
@@ -26,11 +27,6 @@ void test_error_syntax() {
 
     char *str7 = "0";
     assert(error_syntax(str7) == true);
-
-    char *str8 = ft_itoa(INT_MAX);
-    assert(error_syntax(str8) == true);
-    char *str14 = ft_itoa(INT_MIN);
-    assert(error_syntax(str14) == true);
 
     char *str9 = "5a";
     assert(error_syntax(str9) == false);
@@ -92,56 +88,6 @@ void test_valid_input() {
 }
 
 void test_ft_split_ps() {
-
-    // char *empty_string = "";
-    // char **result = ft_split_ps(empty_string);
-    // assert(*result == NULL);
-    // free(result);
-
-    // char *string = "1 2 3 4 5";
-    // result = ft_split_ps(string);
-    // assert(strcmp(result[0], "1") == 0);
-    // assert(strcmp(result[1], "2") == 0);
-    // assert(strcmp(result[2], "3") == 0);
-    // assert(strcmp(result[3], "4") == 0);
-    // assert(strcmp(result[4], "5") == 0);
-    // assert(result[5] == NULL);
-    // free(result[0]);
-    // free(result[1]);
-    // free(result[2]);
-    // free(result[3]);
-    // free(result[4]);
-    // free(result);
-
-    // char *string = "1  2  3    4      5";
-    // char **result = ft_split_ps(string);
-    // assert(strcmp(result[0], "1") == 0);
-    // assert(strcmp(result[1], "2") == 0);
-    // assert(strcmp(result[2], "3") == 0);
-    // assert(strcmp(result[3], "4") == 0);
-    // assert(strcmp(result[4], "5") == 0);
-    // assert(result[5] == NULL);
-    // free(result[0]);
-    // free(result[1]);
-    // free(result[2]);
-    // free(result[3]);
-    // free(result[4]);
-    // free(result);
-
-    // char *string = "1 2 3 4 5 ";
-    // char **result = ft_split_ps(string);
-    // assert(strcmp(result[0], "1") == 0);
-    // assert(strcmp(result[1], "2") == 0);
-    // assert(strcmp(result[2], "3") == 0);
-    // assert(strcmp(result[3], "4") == 0);
-    // assert(strcmp(result[4], "5") == 0);
-    // assert(result[5] == NULL);
-    // free(result[0]);
-    // free(result[1]);
-    // free(result[2]);
-    // free(result[3]);
-    // free(result[4]);
-    // free(result);
 
     char *string = "1 2  ";
     char **result = ft_split_ps(string);

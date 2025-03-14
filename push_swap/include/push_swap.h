@@ -5,6 +5,13 @@
 # include "../libft/include/libft.h"
 # include "parse_validation.h"
 
+typedef struct s_number
+{
+    int	value;
+    int	index;
+}	t_number;
+
+
 // This function splits the string into an array of strings representing numbers
 char **ft_split_ps(char *str);
 
@@ -12,8 +19,10 @@ char **ft_split_ps(char *str);
 void	print_error();
 
 // This function checks if the input is valid
-int valid_input_and_list(char **argv);
+t_list  *valid_input_and_list(char **argv);
 
 void    free_argv(char **argv);
+
+void    print_list(t_list *head);
 
 #endif
