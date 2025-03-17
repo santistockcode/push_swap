@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/03/14 08:19:39 by saalarco         ###   ########.fr        #
+#    Updated: 2025/03/17 19:16:47 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,8 @@ SRCS		= src/main.c \
 	src/parse_validation/error_syntax.c \
 	src/parse_validation/free_argv.c \
 	src/print_list.c \
-	src/parse_validation/ft_atol.c
+	src/parse_validation/ft_atol.c \
+	src/parse_validation/error_duplicates.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -67,10 +68,13 @@ OBJS        := $(SRCS:.c=.o)
 TEST_DIR = tests
 
 TEST_PAR_VAR_SRCS  	= $(TEST_DIR)/test_split_par_var.c \
+	src/valid_input_and_list.c \
 	src/ft_split_ps.c \
 	src/parse_validation/error_syntax.c \
+	src/parse_validation/free_argv.c \
+	src/print_list.c \
 	src/parse_validation/ft_atol.c \
-	src/valid_input_and_list.c
+	src/parse_validation/error_duplicates.c
 
 TEST_PAR_VAR_BIN     = $(TEST_DIR)/tests_par_var
 
@@ -201,12 +205,58 @@ ci: fclean $(LIBFT_LIB)
 	
 	# TODO: library libft directly from git
 
-	@echo "==> Module get_map tests..."
-	$(SILENT)$(MAKE) test_get_map
+	@echo "==> Module parsing and validation tests..."
+	$(SILENT)$(MAKE) test_par_var
+
 
 	@echo "==> Building main project..."
 	$(SILENT)$(MAKE) all
 
+	@echo "==> Running valgrind as integers test..."
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/12345.log ./$(NAME) 1 2 3 4 5
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/1.log ./$(NAME) 1
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/12.log ./$(NAME) 1 2
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/empty.log ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/123450.log ./$(NAME) 1 2 3 4 5 0
+	@echo "==> Running valgrind as string test..."
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/12345.log ./$(NAME) "1 2 3 4 5"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/012345.log ./$(NAME) "0 1 2 3 4 5"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/123450.log ./$(NAME) "1 2 3 4 5 0"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/1.log ./$(NAME) "1"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/12.log ./$(NAME) "1 2"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/empty.log ./$(NAME) ""
+	@echo "==> Running valgrind limit cases test..."
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/1.log ./$(NAME) 2147483647
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/2.log ./$(NAME) -2147483648
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/3.log ./$(NAME) 2147483647 -2147483648
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/4.log ./$(NAME) -2147483648 2147483647
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/5.log ./$(NAME) 2147483647 2147483647
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/6.log ./$(NAME) -2147483649 -2147483649
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/7.log ./$(NAME) 2147483648 0
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/8.log ./$(NAME) "" 1
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/9.log ./$(NAME) 1 ""
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/10.log ./$(NAME) "" ""
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/11.log ./$(NAME) 1 2 tres 4 5
+	
+	@echo "$(RED)==> As integers:$(CLR_RMV)"
+	$(SILENT)cat tests/as_integers/*.log | grep "ERROR SUMMARY:"
+	@echo "$(RED)==> As strings:$(CLR_RMV)"
+	$(SILENT)cat tests/as_string/*.log | grep "ERROR SUMMARY:"
+	@echo "$(RED)==> Limit cases:$(CLR_RMV)"
+	$(SILENT)cat tests/limit_cases/*.log | grep "ERROR SUMMARY:"
+	@echo "$(CLR_RMV)"
+
+	@echo "$(GREEN)==> Frees and allocs:$(CLR_RMV)"
+
+	@echo "$(GREEN)==> As integers:$(CLR_RMV)"
+	$(SILENT)cat tests/as_integers/*.log | grep "All heap blocks we"
+	@echo "$(GREEN)==> As strings:$(CLR_RMV)"
+	$(SILENT)cat tests/as_string/*.log | grep "All heap blocks we"
+	@echo "$(GREEN)==> Limit cases:$(CLR_RMV)"
+	$(SILENT)cat tests/limit_cases/*.log | grep "All heap blocks we"
+	@echo "$(CLR_RMV)"
+
+	@echo "==> Valgrind test complete!"
 	@echo "$(GREEN)==> CI-like pipeline complete!$(CLR_RMV)"
 
 ###############################################################################

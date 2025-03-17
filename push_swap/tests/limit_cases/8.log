@@ -1,0 +1,15 @@
+==4017613== Memcheck, a memory error detector
+==4017613== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==4017613== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==4017613== Command: ./push_swap  1
+==4017613== Parent PID: 4017612
+==4017613== 
+==4017613== 
+==4017613== HEAP SUMMARY:
+==4017613==     in use at exit: 0 bytes in 0 blocks
+==4017613==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==4017613== 
+==4017613== All heap blocks were freed -- no leaks are possible
+==4017613== 
+==4017613== For lists of detected and suppressed errors, rerun with: -s
+==4017613== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -7,16 +7,16 @@ int error_syntax(char *str)
 
     i = 0;
     if (!str)
-        return (0);
+        return (1);
     if (str[i] == '-' || ft_isdigit(str[i]))
         i++;
     else
-        return (0);
+        return (1);
     while (str[i])
     {
         if (!ft_isdigit(str[i]))
-            return (0);
+            return (1);
         i++;
     }
-    return (1);
+    return (0);
 }

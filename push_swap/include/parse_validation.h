@@ -8,7 +8,7 @@
 int error_syntax(char *str);
 
 // This function checks if there are duplicates in the array and returns true or false
-int error_duplicates(char **argv);
+int error_duplicates(t_list *list, int value);
 
 // This function frees the memory allocated for the array
 void free_argv(char **argv);

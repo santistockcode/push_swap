@@ -12,6 +12,7 @@ typedef struct s_number
 }	t_number;
 
 
+
 // This function splits the string into an array of strings representing numbers
 char **ft_split_ps(char *str);
 

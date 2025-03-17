@@ -7,6 +7,18 @@ void	print_error()
     ft_putstr_fd("Error\n", 2);
 }
 
+int    valid_input(char **argv, t_list **list, long *l)
+{
+	if (error_syntax(*argv))
+            return (0);
+    *l = ft_atol(*argv);
+    if (*l > INT_MAX || *l < INT_MIN)
+            return (0);
+    if (error_duplicates(*list, *l))
+            return (0);
+	return(1);
+}
+
 t_list  *valid_input_and_list(char **argv)
 {
     long l;
@@ -16,30 +28,20 @@ t_list  *valid_input_and_list(char **argv)
 
     counter = 0;
     list = NULL;
-    while (*argv)
+	l = 0;
+    while (*argv != NULL)
     {
-        // check for syntax errors
-        
-        // atol
-        l = ft_atol(*argv);
-        // check for max and min values integers 
-
-        // create number
+        if (!valid_input(argv, &list, &l))
+			return (ft_lstclear(&list, free), NULL);
         number = (t_number *)malloc(sizeof(t_number));
         if (!number)
             return (NULL);
         number->value = (int) l;
         number->index = counter++;
-        // add to list
         t_list *new_node = ft_lstnew(number);
         if (!new_node)
-            return (NULL);
+            return (ft_lstclear(&list, free), NULL);
         ft_lstadd_back(&list, new_node);
-        // TODO: lstnew might fail, PROTECT
-
-        // check for duplicates in list
-
-        printf("ADDED to list: %ld\n", l);
         argv++;
     }
     return (list);

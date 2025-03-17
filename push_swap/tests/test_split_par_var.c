@@ -8,83 +8,83 @@
 
 void test_error_syntax() {
     char *str1 = "12345";
-    assert(error_syntax(str1) == true);
+    assert(error_syntax(str1) == false);
 
     char *str2 = "-15";
-    assert(error_syntax(str2) == true);
+    assert(error_syntax(str2) == false);
 
     char *str3 = "1";
-    assert(error_syntax(str3) == true);
+    assert(error_syntax(str3) == false);
 
     char *str4 = "0";
-    assert(error_syntax(str4) == true);
+    assert(error_syntax(str4) == false);
 
     char *str5 = "-523456789";
-    assert(error_syntax(str5) == true);
+    assert(error_syntax(str5) == false);
 
     char *str6 = "0563246798";
-    assert(error_syntax(str6) == true);
+    assert(error_syntax(str6) == false);
 
     char *str7 = "0";
-    assert(error_syntax(str7) == true);
+    assert(error_syntax(str7) == false);
 
     char *str9 = "5a";
-    assert(error_syntax(str9) == false);
+    assert(error_syntax(str9) == true);
 
     char *str10 = " 5-";
-    assert(error_syntax(str10) == false);
+    assert(error_syntax(str10) == true);
 
     char *str11 = "-2345678 ";
-    assert(error_syntax(str11) == false);
+    assert(error_syntax(str11) == true);
 
     char *str12 = "-6345678+";
-    assert(error_syntax(str12) == false);
+    assert(error_syntax(str12) == true);
 
     char *str13 = "1.6";
-    assert(error_syntax(str13) == false);
+    assert(error_syntax(str13) == true);
     
 }
 
 
-void test_valid_input() {
+void test_valid_input_and_list() {
+
     char *args1[] = {"1", "2", "3", "4", "5", NULL};
-    assert(valid_input_and_list(args1) == 1);
+    t_list *list1 = valid_input_and_list(args1);
+    assert(list1 != NULL);
+    t_list *current = list1;
+    int i = 0;
+    while (current != NULL && i < 5) {
+        t_number *number = (t_number *)current->content;
+        assert(number->value == i + 1);
+        assert(number->index == i);
+        current = current->next;
+    }
 
     char *args2[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", NULL};
-    assert(valid_input_and_list(args2) == 1);
+    t_list *list2 = valid_input_and_list(args2);
+    assert(list2 != NULL);
+    current = list2;
+    i = 0;
+    while (current != NULL && i < 10) {
+        t_number *number = (t_number *)current->content;
+        assert(number->value == i + 1);
+        assert(number->index == i);
+        current = current->next;
+    }
 
-    char *args3[] = {"1", "2", "3", "4", "5", "5", NULL};
-    assert(valid_input_and_list(args3) == 0);
-
-    char *args4[] = {"1", "2", "3", "4", "5", "1", NULL};
-    assert(valid_input_and_list(args4) == 0);
-
-    char *args5[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10", NULL};
-    assert(valid_input_and_list(args5) == 0);
-
-    char *args6[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", NULL};
-    assert(valid_input_and_list(args6) == 0);
-
-    char *args7[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "0", NULL};
-    assert(valid_input_and_list(args7) == 1);
-
-    char *args8[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "-1", NULL};
-    assert(valid_input_and_list(args8) == 1);
-
-    char *args9[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "2147483647", NULL};
-    assert(valid_input_and_list(args9) == 1);
-
-    char *args10[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "-2147483648", NULL};
-    assert(valid_input_and_list(args10) == 1);
-
-    char *args11[] = {"1", "2", "3a", "4", "5", "6", "7", "8", "9", "10", "2147483648", NULL};
-    assert(valid_input_and_list(args11) == 0);
-
-    char *args12[] = {"1", "922337203685477522", "3", "4", "5", "6", "7", "8", "9", "10", "-2147483649", NULL};
-    assert(valid_input_and_list(args12) == 0);
-
-    char *args13[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "9223372036854775807", NULL};
-    assert(valid_input_and_list(args13) == 0);
+    char *arg3[] = {"-10", "-9", "-8", "-7", "-6", "-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", NULL};
+    t_list *list3 = valid_input_and_list(arg3);
+    assert(list3 != NULL);
+    current = list3;
+    i = -10;
+    while (current != NULL && i < 11) {
+        t_number *number = (t_number *)current->content;
+        assert(number->value == i);
+        assert(number->index == i + 10);
+        current = current->next;
+        i++;
+    }
+    
 }
 
 void test_ft_split_ps() {
