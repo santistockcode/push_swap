@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/03/17 19:16:47 by saalarco         ###   ########.fr        #
+#    Updated: 2025/03/21 18:41:28 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ SRCS		= src/main.c \
 	src/parse_validation/free_argv.c \
 	src/print_list.c \
 	src/parse_validation/ft_atol.c \
-	src/parse_validation/error_duplicates.c
+	src/parse_validation/error_duplicates.c \
+	src/parse_validation/ft_join_spaces.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -74,7 +75,9 @@ TEST_PAR_VAR_SRCS  	= $(TEST_DIR)/test_split_par_var.c \
 	src/parse_validation/free_argv.c \
 	src/print_list.c \
 	src/parse_validation/ft_atol.c \
-	src/parse_validation/error_duplicates.c
+	src/parse_validation/error_duplicates.c \
+	src/parse_validation/ft_join_spaces.c
+
 
 TEST_PAR_VAR_BIN     = $(TEST_DIR)/tests_par_var
 
@@ -211,32 +214,55 @@ ci: fclean $(LIBFT_LIB)
 
 	@echo "==> Building main project..."
 	$(SILENT)$(MAKE) all
-
-	@echo "==> Running valgrind as integers test..."
+	
+	@echo "$(BLUE)==> Running valgrind test empty...$(CLR_RMV)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/empty.log ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/empty.log ./$(NAME) ""
+	@echo "$(BLUE)==> Running valgrind as integers test OK...$(CLR_RMV)"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/12345.log ./$(NAME) 1 2 3 4 5
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/1.log ./$(NAME) 1
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/12.log ./$(NAME) 1 2
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/empty.log ./$(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/123450.log ./$(NAME) 1 2 3 4 5 0
-	@echo "==> Running valgrind as string test..."
+	@echo "$(BLUE)==> Running valgrind as integers test KO...$(CLR_RMV)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/empty.log ./$(NAME) 11 1 1 1 1 1 11 11 1
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/empty.log ./$(NAME) 1 2 3 4 4
+	@echo "$(BLUE)==> Running valgrind as string test OK...$(CLR_RMV)"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/12345.log ./$(NAME) "1 2 3 4 5"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/012345.log ./$(NAME) "0 1 2 3 4 5"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/123450.log ./$(NAME) "1 2 3 4 5 0"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/1.log ./$(NAME) "1"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/12.log ./$(NAME) "1 2"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/empty.log ./$(NAME) ""
-	@echo "==> Running valgrind limit cases test..."
+	@echo "$(BLUE)==> Running valgrind as string test KO...$(CLR_RMV)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/12345.log ./$(NAME) "1 2 3 4 5 5"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/012345.log ./$(NAME) "0 0 1 2 3 4 5"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/123450.log ./$(NAME) "1 2 3 4 3 5 0"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/1.log ./$(NAME) "1 1"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/12.log ./$(NAME) "0 1 2 0"
+	@echo "$(BLUE)==> Running valgrind limit cases test OK...$(CLR_RMV)"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/1.log ./$(NAME) 2147483647
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/2.log ./$(NAME) -2147483648
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/3.log ./$(NAME) 2147483647 -2147483648
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/4.log ./$(NAME) -2147483648 2147483647
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/8.log ./$(NAME) "" 1
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/9.log ./$(NAME) 1 ""
+	@echo "$(BLUE)==> Running valgrind limit cases test KO...$(CLR_RMV)"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/5.log ./$(NAME) 2147483647 2147483647
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/6.log ./$(NAME) -2147483649 -2147483649
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/7.log ./$(NAME) 2147483648 0
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/8.log ./$(NAME) "" 1
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/9.log ./$(NAME) 1 ""
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/10.log ./$(NAME) "" ""
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/limit_cases/11.log ./$(NAME) 1 2 tres 4 5
+	@echo "$(BLUE)==> Running valgrind peer review OK...$(CLR_RMV)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/1.log ./$(NAME) "" 1 "" 5 6 37 "42"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/2.log ./$(NAME) "24" 1 2 4 
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/3.log ./$(NAME) 3 "1234 6"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/4.log ./$(NAME) 3 "1234 6" 42 2 "1"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/5.log ./$(NAME) "123456" 0
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/6.log ./$(NAME) 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 "16"
+	@echo "$(BLUE)==> Running valgrind peer review KO...$(CLR_RMV)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/7.log ./$(NAME) "24 2 4" 2 4 2 
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/8.log ./$(NAME) 364 3 "1234 6" 3 2
+
+
 	
 	@echo "$(RED)==> As integers:$(CLR_RMV)"
 	$(SILENT)cat tests/as_integers/*.log | grep "ERROR SUMMARY:"
@@ -244,6 +270,8 @@ ci: fclean $(LIBFT_LIB)
 	$(SILENT)cat tests/as_string/*.log | grep "ERROR SUMMARY:"
 	@echo "$(RED)==> Limit cases:$(CLR_RMV)"
 	$(SILENT)cat tests/limit_cases/*.log | grep "ERROR SUMMARY:"
+	@echo "$(RED)==> Peer review:$(CLR_RMV)"
+	$(SILENT)cat tests/peer_suggest/*.log | grep "ERROR SUMMARY:"
 	@echo "$(CLR_RMV)"
 
 	@echo "$(GREEN)==> Frees and allocs:$(CLR_RMV)"
@@ -254,6 +282,8 @@ ci: fclean $(LIBFT_LIB)
 	$(SILENT)cat tests/as_string/*.log | grep "All heap blocks we"
 	@echo "$(GREEN)==> Limit cases:$(CLR_RMV)"
 	$(SILENT)cat tests/limit_cases/*.log | grep "All heap blocks we"
+	@echo "$(GREEN)==> Peer review:$(CLR_RMV)"
+	$(SILENT)cat tests/peer_suggest/*.log | grep "All heap blocks we"
 	@echo "$(CLR_RMV)"
 
 	@echo "==> Valgrind test complete!"

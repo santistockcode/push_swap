@@ -1,0 +1,15 @@
+==770565== Memcheck, a memory error detector
+==770565== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==770565== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==770565== Command: ./push_swap  1  5 6 37 42
+==770565== Parent PID: 770564
+==770565== 
+==770565== 
+==770565== HEAP SUMMARY:
+==770565==     in use at exit: 0 bytes in 0 blocks
+==770565==   total heap usage: 18 allocs, 18 frees, 1,219 bytes allocated
+==770565== 
+==770565== All heap blocks were freed -- no leaks are possible
+==770565== 
+==770565== For lists of detected and suppressed errors, rerun with: -s
+==770565== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
