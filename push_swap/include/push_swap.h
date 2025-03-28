@@ -4,6 +4,7 @@
 
 # include "../libft/include/libft.h"
 # include "parse_validation.h"
+# include "operations.h"
 
 typedef struct s_number
 {
@@ -13,6 +14,12 @@ typedef struct s_number
     // cheapest reference
     // faltan 2
 }	t_number;
+
+typedef struct t_stacks
+{
+    t_list	*a_head;
+    t_list	*b_head;
+}	t_stacks;
 
 
 

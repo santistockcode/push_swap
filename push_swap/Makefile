@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/03/21 18:41:28 by saalarco         ###   ########.fr        #
+#    Updated: 2025/03/28 20:18:54 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,6 +113,21 @@ TESTS_SPLIT_SRCS4	= $(TEST_DIR)/test_split_4.c \
 
 TESTS_SPLIT_BIN4	= $(TEST_DIR)/test_split_4
 
+TESTS_OPERATIONS_SRC	= $(TEST_DIR)/test_operations.c \
+	src/operations/pa.c \
+	src/operations/pb.c \
+	src/operations/ra.c \
+	src/operations/rb.c \
+	src/operations/rr.c \
+	src/operations/rra.c \
+	src/operations/rrb.c \
+	src/operations/rrr.c \
+	src/operations/sa.c \
+	src/operations/sb.c \
+	src/operations/ss.c
+
+TESTS_OPERATIONS_BIN	= $(TEST_DIR)/test_operations
+
 ###############################################################################
 #                              DEFAULT RULES                                  #
 ###############################################################################
@@ -198,6 +213,14 @@ test_pv_lldb : $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
 	lldb ./$(TEST_PAR_VAR_BIN)
+
+
+// TODO: importante valgrind en estos tests
+test_op : $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
+
+
+
 	
 
 ###############################################################################
