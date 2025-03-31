@@ -15,13 +15,6 @@ typedef struct s_number
     // faltan 2
 }	t_number;
 
-typedef struct t_stacks
-{
-    t_list	*a_head;
-    t_list	*b_head;
-}	t_stacks;
-
-
 
 // This function splits the string into an array of strings representing numbers
 char **ft_split_ps(char *str);

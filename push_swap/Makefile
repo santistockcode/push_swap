@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/03/28 20:18:54 by saalarco         ###   ########.fr        #
+#    Updated: 2025/03/31 19:45:53 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,17 +114,20 @@ TESTS_SPLIT_SRCS4	= $(TEST_DIR)/test_split_4.c \
 TESTS_SPLIT_BIN4	= $(TEST_DIR)/test_split_4
 
 TESTS_OPERATIONS_SRC	= $(TEST_DIR)/test_operations.c \
-	src/operations/pa.c \
-	src/operations/pb.c \
-	src/operations/ra.c \
-	src/operations/rb.c \
-	src/operations/rr.c \
-	src/operations/rra.c \
-	src/operations/rrb.c \
-	src/operations/rrr.c \
+	src/print_list.c \
+	src/operations/ft_swap.c \
 	src/operations/sa.c \
 	src/operations/sb.c \
-	src/operations/ss.c
+	src/operations/ss.c \
+	src/operations/pa.c
+	 
+	# src/operations/pb.c \
+	# src/operations/ra.c \
+	# src/operations/rb.c \
+	# src/operations/rr.c \
+	# src/operations/rra.c \
+	# src/operations/rrb.c \
+	# src/operations/rrr.c \
 
 TESTS_OPERATIONS_BIN	= $(TEST_DIR)/test_operations
 
@@ -214,10 +217,22 @@ test_pv_lldb : $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
 	lldb ./$(TEST_PAR_VAR_BIN)
 
+##
+## 2) basic operations
+##
 
 // TODO: importante valgrind en estos tests
-test_op : $(LIBFT_LIB)
+test_op_fs: $(LIBFT_LIB)
+	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
+	./$(TESTS_OPERATIONS_BIN)
+
+test_op_v: $(LIBFT_LIB)
 	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
+	@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TESTS_OPERATIONS_BIN)
+
 
 
 
@@ -325,6 +340,8 @@ clean:
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN2)
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN3)
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN4)
+	$(SILENT)rm -rf $(TESTS_OPERATIONS_BIN)
+
 	
 
 fclean: clean
