@@ -20,8 +20,8 @@ void   ss(t_stacks *stacks);
 // // push a
 void    pa(t_stacks *stacks);
 
-// // push b
-// void    pb(t_stacks *stacks);
+// push b
+void    pb(t_stacks *stacks);
 
 // // rotate a
 // void    ra(t_stacks *stacks);

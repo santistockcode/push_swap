@@ -119,9 +119,9 @@ TESTS_OPERATIONS_SRC	= $(TEST_DIR)/test_operations.c \
 	src/operations/sa.c \
 	src/operations/sb.c \
 	src/operations/ss.c \
+	src/operations/pb.c \
 	src/operations/pa.c
 	 
-	# src/operations/pb.c \
 	# src/operations/ra.c \
 	# src/operations/rb.c \
 	# src/operations/rr.c \
@@ -232,6 +232,10 @@ test_op_v: $(LIBFT_LIB)
 			--show-leak-kinds=all \
 			--track-origins=yes \
 			./$(TESTS_OPERATIONS_BIN)
+
+test_op: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
+	./$(TESTS_OPERATIONS_BIN)
 
 
 

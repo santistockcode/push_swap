@@ -15,12 +15,12 @@
 int	main(int argc, char **argv)
 {
 	t_list	*a;
-	t_list *b;
+	// t_list *b;
 	char	**input;
 	char	*str;
 
 	a = NULL;
-	b = NULL;
+	// b = NULL;
 	input = NULL;
 	if (argc < 2 || (argc == 2 && !argv[1][0]))
 		return (0);
