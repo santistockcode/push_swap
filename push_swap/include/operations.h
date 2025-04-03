@@ -24,7 +24,7 @@ void    pa(t_stacks *stacks);
 void    pb(t_stacks *stacks);
 
 // // rotate a
-// void    ra(t_stacks *stacks);
+void    ra(t_stacks *stacks);
 
 // // rotate b
 // void    rb(t_stacks *stacks);

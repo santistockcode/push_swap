@@ -11,3 +11,4 @@ void sa(t_stacks *stacks)
     ft_swap(a_head, a_head->next);
     write(1, "sa\n", 3);
 }
+

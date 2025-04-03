@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/03/31 19:45:53 by saalarco         ###   ########.fr        #
+#    Updated: 2025/04/03 17:18:31 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,9 +120,9 @@ TESTS_OPERATIONS_SRC	= $(TEST_DIR)/test_operations.c \
 	src/operations/sb.c \
 	src/operations/ss.c \
 	src/operations/pb.c \
+	src/operations/ra.c \
 	src/operations/pa.c
 	 
-	# src/operations/ra.c \
 	# src/operations/rb.c \
 	# src/operations/rr.c \
 	# src/operations/rra.c \
