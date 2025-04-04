@@ -27,19 +27,19 @@ void    pb(t_stacks *stacks);
 void    ra(t_stacks *stacks);
 
 // // rotate b
-// void    rb(t_stacks *stacks);
+void    rb(t_stacks *stacks);
 
 // // rotate a and rotate b
-// void    rr(t_stacks *stacks);
+void    rr(t_stacks *stacks);
 
 // // reverse rotate a
 void    rra(t_stacks *stacks);
 
 // // reverse rotate b
-// void    rrb(t_stacks *stacks);
+void    rrb(t_stacks *stacks);
 
 // // reverse rotate a and reverse rotate b
-// void    rrr(t_stacks *stacks);
+void    rrr(t_stacks *stacks);
 
 void ft_swap(t_list *a, t_list *b);
 

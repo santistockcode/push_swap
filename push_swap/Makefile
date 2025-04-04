@@ -122,12 +122,11 @@ TESTS_OPERATIONS_SRC	= $(TEST_DIR)/test_operations.c \
 	src/operations/pb.c \
 	src/operations/ra.c \
 	src/operations/rra.c \
-	src/operations/pa.c
-	 
-	# src/operations/rb.c \
-	# src/operations/rr.c \
-	# src/operations/rrb.c \
-	# src/operations/rrr.c \
+	src/operations/pa.c \
+	src/operations/rb.c \
+	src/operations/rr.c \
+	src/operations/rrb.c \
+	src/operations/rrr.c
 
 TESTS_OPERATIONS_BIN	= $(TEST_DIR)/test_operations
 
