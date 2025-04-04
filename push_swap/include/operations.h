@@ -33,7 +33,7 @@ void    ra(t_stacks *stacks);
 // void    rr(t_stacks *stacks);
 
 // // reverse rotate a
-// void    rra(t_stacks *stacks);
+void    rra(t_stacks *stacks);
 
 // // reverse rotate b
 // void    rrb(t_stacks *stacks);

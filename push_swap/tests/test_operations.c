@@ -765,6 +765,127 @@ void test_ra()
     free(stacks);
 }
 
+void test_rra()
+{
+    t_stacks *stacks;
+    stacks = (t_stacks *)malloc(sizeof(t_stacks));
+    if (!stacks)
+        return;
+    
+    // TEST0 A empty list B empty list
+    t_list *head_a_0;
+    t_list *head_b_0;
+    head_a_0 = NULL;
+    head_b_0 = NULL;
+    stacks->a_head = head_a_0;
+    stacks->b_head = head_b_0;
+
+    rra(stacks);
+
+    assert(stacks->a_head == NULL);
+    assert(stacks->b_head == NULL);
+
+    // TEST1 A 1 ELEMENT B empty list
+    t_list *head_a_1;
+    t_list *head_b_1;
+    head_a_1 = NULL;
+    head_b_1 = NULL;
+
+    t_number *number_a_1_0 = (t_number *)malloc(sizeof(t_number));
+    number_a_1_0->value = 42;
+    t_list *new_node_a_1_0 = ft_lstnew(number_a_1_0);
+    ft_lstadd_back(&head_a_1, new_node_a_1_0);
+
+    stacks->a_head = head_a_1;
+    stacks->b_head = head_b_1;
+
+    rra(stacks);
+
+    assert(stacks->a_head->content == number_a_1_0);
+    assert(stacks->b_head == NULL);
+
+    ft_lstclear(&(stacks->a_head), free);
+
+    // TEST3 A 3 ELEMENTS B empty list
+    // p *(t_number *)((t_list *) a_head)->content
+    t_list *head_a_3;
+    t_list *head_b_3;
+    head_a_3 = NULL;
+    head_b_3 = NULL;
+
+    t_number *number_a_3_0 = (t_number *)malloc(sizeof(t_number));
+    number_a_3_0->value = 0;
+    t_list *new_node_a_3_0 = ft_lstnew(number_a_3_0);
+    ft_lstadd_back(&head_a_3, new_node_a_3_0);
+
+    t_number *number_a_3_1 = (t_number *)malloc(sizeof(t_number));
+    number_a_3_1->value = 1;
+    t_list *new_node_a_3_1 = ft_lstnew(number_a_3_1);
+    ft_lstadd_back(&head_a_3, new_node_a_3_1);
+
+    t_number *number_a_3_2 = (t_number *)malloc(sizeof(t_number));
+    number_a_3_2->value = 2;
+    t_list *new_node_a_3_2 = ft_lstnew(number_a_3_2);
+    ft_lstadd_back(&head_a_3, new_node_a_3_2);
+
+    stacks->a_head = head_a_3;
+    stacks->b_head = head_b_3;
+
+    rra(stacks);
+
+    assert(stacks->a_head->content == number_a_3_2);
+    assert(stacks->a_head->next->content == number_a_3_0);
+    assert(stacks->a_head->next->next->content == number_a_3_1);
+    assert(stacks->b_head == NULL);
+
+    ft_lstclear(&(stacks->a_head), free);
+
+
+    // TEST4 A 4 ELEMENTS B empty list
+    // p *(t_number *)((t_list *) a_head)->content
+    t_list *head_a_4;
+    t_list *head_b_4;
+    head_a_4 = NULL;
+    head_b_4 = NULL;
+
+    t_number *number_a_4_0 = (t_number *)malloc(sizeof(t_number));
+    number_a_4_0->value = 0;
+    t_list *new_node_a_4_0 = ft_lstnew(number_a_4_0);
+    ft_lstadd_back(&head_a_4, new_node_a_4_0);
+
+    t_number *number_a_4_1 = (t_number *)malloc(sizeof(t_number));
+    number_a_4_1->value = 1;
+    t_list *new_node_a_4_1 = ft_lstnew(number_a_4_1);
+    ft_lstadd_back(&head_a_4, new_node_a_4_1);
+
+    t_number *number_a_4_2 = (t_number *)malloc(sizeof(t_number));
+    number_a_4_2->value = 2;
+    t_list *new_node_a_4_2 = ft_lstnew(number_a_4_2);
+    ft_lstadd_back(&head_a_4, new_node_a_4_2);
+
+    t_number *number_a_4_3 = (t_number *)malloc(sizeof(t_number));
+    number_a_4_3->value = 3;
+    t_list *new_node_a_4_3 = ft_lstnew(number_a_4_3);
+    ft_lstadd_back(&head_a_4, new_node_a_4_3);
+
+    stacks->a_head = head_a_4;
+    stacks->b_head = head_b_4;
+
+    rra(stacks);
+
+    assert(stacks->a_head->content == number_a_4_3);
+    assert(stacks->a_head->next->content == number_a_4_0);
+    assert(stacks->a_head->next->next->content == number_a_4_1);
+    assert(stacks->a_head->next->next->next->content == number_a_4_2);
+    assert(stacks->b_head == NULL);
+
+    ft_lstclear(&(stacks->a_head), free);
+
+
+
+    free(stacks);
+}
+
 int main(void)
 {
     test_sa();
@@ -773,5 +894,6 @@ int main(void)
     test_pa();
     test_pb();
     test_ra();
+    test_rra();
     return(0);
 }
