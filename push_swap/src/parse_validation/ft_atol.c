@@ -1,10 +1,21 @@
-#include "../../include/push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 17:45:46 by saalarco          #+#    #+#             */
+/*   Updated: 2025/04/07 18:11:54 by saalarco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../../include/push_swap.h"
 
 long	ft_atol(const char *str)
 {
 	long	n;
-	int	flag;
+	int		flag;
 	long	i;
 
 	n = 0;

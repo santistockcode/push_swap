@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_join_spaces.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 18:11:02 by saalarco          #+#    #+#             */
+/*   Updated: 2025/04/07 18:15:12 by saalarco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../include/push_swap.h"
-// calculate size for malloc
+
 int	size_for_malloc(char **argv, int argc)
 {
 	int	i;
@@ -22,27 +33,14 @@ int	size_for_malloc(char **argv, int argc)
 	return (len);
 }
 
-// allocate memory
-
-
-// strlcpy first element
-
-
-// strlcat + ft_strlen next elements of the string
-
-
-// return the string
-
-char    *ft_join_spaces(char **argv, int argc)
+char	*ft_join_spaces(char **argv, int argc)
 {
-	char    *str;
-	int     i;
-	int     j;
-	int     len;
-	int	 	k;
+	char	*str;
+	int		i;
+	int		j;
+	int		len;
+	int		k;
 
-	i = 1;
-	len = 0;
 	len = size_for_malloc(argv, argc);
 	str = (char *)malloc((len + argc) * sizeof(char));
 	if (!str)

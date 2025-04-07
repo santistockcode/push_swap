@@ -1,15 +1,15 @@
-==770520== Memcheck, a memory error detector
-==770520== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==770520== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==770520== Command: ./push_swap 1\ 1
-==770520== Parent PID: 770519
-==770520== 
-==770520== 
-==770520== HEAP SUMMARY:
-==770520==     in use at exit: 0 bytes in 0 blocks
-==770520==   total heap usage: 6 allocs, 6 frees, 57 bytes allocated
-==770520== 
-==770520== All heap blocks were freed -- no leaks are possible
-==770520== 
-==770520== For lists of detected and suppressed errors, rerun with: -s
-==770520== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1415941== Memcheck, a memory error detector
+==1415941== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1415941== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1415941== Command: ./push_swap 1\ 1
+==1415941== Parent PID: 1415940
+==1415941== 
+==1415941== 
+==1415941== HEAP SUMMARY:
+==1415941==     in use at exit: 0 bytes in 0 blocks
+==1415941==   total heap usage: 6 allocs, 6 frees, 57 bytes allocated
+==1415941== 
+==1415941== All heap blocks were freed -- no leaks are possible
+==1415941== 
+==1415941== For lists of detected and suppressed errors, rerun with: -s
+==1415941== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

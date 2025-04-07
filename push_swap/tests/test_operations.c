@@ -1221,8 +1221,8 @@ void test_rr()
 
     rr(stacks);
 
-    assert(stacks->b_head->content == number_a_3_1);
-    assert(stacks->b_head->next->content == number_a_3_0);
+    assert(stacks->b_head->content == number_a_3_0);
+    assert(stacks->b_head->next->content == number_a_3_1);
     assert(stacks->a_head->content == number_b_3_0);
 
     ft_lstclear(&(stacks->a_head), free);
@@ -1799,8 +1799,8 @@ void test_rrr()
     rrr(stacks);
 
     // elements for a are rotated yeah?
-    assert(stacks->a_head->content == number_a_3_1);
-    assert(stacks->a_head->next->content == number_a_3_0);
+    assert(stacks->a_head->content == number_a_3_0);
+    assert(stacks->a_head->next->content == number_a_3_1);
     assert(stacks->b_head->content == number_b_3_0);
 
     ft_lstclear(&(stacks->a_head), free);

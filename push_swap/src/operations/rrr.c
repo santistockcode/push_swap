@@ -1,88 +1,104 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rrr.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saalarco <saalarco@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 17:45:46 by saalarco          #+#    #+#             */
+/*   Updated: 2025/04/07 17:45:49 by saalarco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/push_swap.h"
 
-void rrb_no_print(t_stacks *stacks)
+void	move_b(t_list	*b_head)
 {
-    t_list* b_head;
-    t_list* temp;
-    void*   paso;
-    void*   st;
-    t_list* start;
+	t_list	*temp;
+	void	*paso;
+	void	*st;
+	t_list	*start;
 
-    b_head = stacks->b_head;
-    if(b_head == NULL || b_head->next == NULL)
-        return ;
-    else
-    {
-        temp = b_head;
-        start = b_head; 
-        st = temp->content;
-        paso = temp->next->content;
-        temp->next->content = st;
-        temp = temp->next;
-        while(temp->next)
-        {
-            st = temp->next->content;
-            temp->next->content = paso;
-            paso = st;
-            temp = temp->next;
-        }
-        start->content = paso;
-    }
+	temp = b_head;
+	start = b_head;
+	st = temp->content;
+	paso = temp->next->content;
+	temp->next->content = st;
+	temp = temp->next;
+	while (temp->next)
+	{
+		st = temp->next->content;
+		temp->next->content = paso;
+		paso = st;
+		temp = temp->next;
+	}
+	start->content = paso;
 }
 
-void rra_no_print(t_stacks *stacks)
+void	rrb_no_print(t_stacks *stacks)
 {
-    t_list* a_head;
-    t_list* temp;
-    void*   paso;
-    void*   st;
-    t_list* start;
+	t_list	*b_head;
 
-    a_head = stacks->a_head;
-    if(a_head == NULL || a_head->next == NULL)
-        return ;
-    else
-    {
-        temp = a_head;
-        start = a_head; 
-        st = temp->content;
-        paso = temp->next->content;
-        temp->next->content = st;
-        temp = temp->next;
-        while(temp->next)
-        {
-            st = temp->next->content;
-            temp->next->content = paso;
-            paso = st;
-            temp = temp->next;
-        }
-        start->content = paso;
-    }
+	b_head = stacks->b_head;
+	if (b_head == NULL || b_head->next == NULL)
+		return ;
+	else
+	{
+		move_b(b_head);
+	}
+	write (1, "rrb\n", 4);
 }
 
-void rrr(t_stacks *stacks)
+void	move_a(t_list *a_head)
 {
-    t_list* a_head;
-    t_list* b_head;
-    int flag;
+	t_list	*temp;
+	void	*paso;
+	void	*st;
+	t_list	*start;
 
-    flag = 0;
-    a_head = stacks->a_head;
-    b_head = stacks->b_head;
-    if(a_head == NULL || a_head->next == NULL)
-        ;
-    else
-    {
-        rra_no_print(stacks);
-        flag = 1;
-    }
-    if(b_head == NULL || b_head->next == NULL)
-        ;
-    else
-    {
-        rrb_no_print(stacks);
-        flag = 1;
-    }
-    if (flag)
-        write(1, "rrr\n", 4);
+	temp = a_head;
+	start = a_head;
+	st = temp->content;
+	paso = temp->next->content;
+	temp->next->content = st;
+	temp = temp->next;
+	while (temp->next)
+	{
+		st = temp->next->content;
+		temp->next->content = paso;
+		paso = st;
+		temp = temp->next;
+	}
+	start->content = paso;
+}
+
+void	rra_no_print(t_stacks *stacks)
+{
+	t_list	*a_head;
+
+	a_head = stacks->a_head;
+	if (a_head == NULL || a_head->next == NULL)
+		return ;
+	else
+	{
+		move_a(a_head);
+	}
+}
+
+void	rrr(t_stacks *stacks)
+{
+	t_list	*a_head;
+	t_list	*b_head;
+
+	a_head = stacks->a_head;
+	b_head = stacks->b_head;
+	if (a_head == NULL || a_head->next == NULL
+		|| b_head == NULL || b_head->next == NULL)
+		;
+	else
+	{
+		rra_no_print(stacks);
+		rrb_no_print(stacks);
+		write(1, "rrr\n", 4);
+	}
 }
