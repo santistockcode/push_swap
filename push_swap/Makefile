@@ -249,9 +249,8 @@ ci: fclean $(LIBFT_LIB)
 	
 	# TODO: library libft directly from git
 
-	@echo "==> Module parsing and validation tests..."
+	@echo "$(BLUE)==> Module parsing and validation tests...$(CLR_RMV)"
 	$(SILENT)$(MAKE) test_par_var
-
 
 	@echo "==> Building main project..."
 	$(SILENT)$(MAKE) all
@@ -303,8 +302,6 @@ ci: fclean $(LIBFT_LIB)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/7.log ./$(NAME) "24 2 4" 2 4 2 
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/8.log ./$(NAME) 364 3 "1234 6" 3 2
 
-
-	
 	@echo "$(RED)==> As integers:$(CLR_RMV)"
 	$(SILENT)cat tests/as_integers/*.log | grep "ERROR SUMMARY:"
 	@echo "$(RED)==> As strings:$(CLR_RMV)"
@@ -327,7 +324,17 @@ ci: fclean $(LIBFT_LIB)
 	$(SILENT)cat tests/peer_suggest/*.log | grep "All heap blocks we"
 	@echo "$(CLR_RMV)"
 
-	@echo "==> Valgrind test complete!"
+	@echo "==> Valgrind parsing and validation test completed!"
+
+	@echo "$(BLUE)==> Running basic operations tests$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_op
+
+	@echo "$(BLUE)==> Running basic operations tests with fsanitize$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_op_fs
+
+	@echo "$(BLUE)==> Running basic operations tests with valgrind$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_op_v
+
 	@echo "$(GREEN)==> CI-like pipeline complete!$(CLR_RMV)"
 
 ###############################################################################
