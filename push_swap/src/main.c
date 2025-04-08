@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:38:21 by saalarco          #+#    #+#             */
-/*   Updated: 2025/03/21 18:41:53 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:06:23 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int	main(int argc, char **argv)
 {
 	t_list	*a;
+	// t_list *b;
 	char	**input;
 	char	*str;
 
 	a = NULL;
+	// b = NULL;
 	input = NULL;
 	if (argc < 2 || (argc == 2 && !argv[1][0]))
 		return (0);

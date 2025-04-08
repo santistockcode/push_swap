@@ -4,6 +4,7 @@
 
 # include "../libft/include/libft.h"
 # include "parse_validation.h"
+# include "operations.h"
 
 typedef struct s_number
 {
@@ -13,7 +14,6 @@ typedef struct s_number
     // cheapest reference
     // faltan 2
 }	t_number;
-
 
 
 // This function splits the string into an array of strings representing numbers

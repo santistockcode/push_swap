@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_argv.c                                        :+:      :+:    :+:   */
+/*   rrb.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saalarco <saalarco@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,15 +12,38 @@
 
 #include "../../include/push_swap.h"
 
-void	free_argv(char **argv)
+void	move_rrb(t_list	*b_head)
 {
-	int	i;
+	t_list	*current;
+	void	*grab_content;
+	void	*temp_content;
 
-	i = 0;
-	while (argv[i])
+	current = b_head;
+	while (current->next)
 	{
-		free(argv[i]);
-		i++;
+		current = current->next;
 	}
-	free(argv);
+	grab_content = current->content;
+	current = b_head;
+	while (current)
+	{
+		temp_content = current->content;
+		current->content = grab_content;
+		grab_content = temp_content;
+		current = current->next;
+	}
+}
+
+void	rrb(t_stacks *stacks)
+{
+	t_list	*b_head;
+
+	b_head = stacks->b_head;
+	if (b_head == NULL || b_head->next == NULL)
+		return ;
+	else
+	{
+		move_rrb (b_head);
+	}
+	write (1, "rrb\n", 4);
 }

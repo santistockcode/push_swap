@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   pa.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: saalarco <saalarco@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:45:46 by saalarco          #+#    #+#             */
-/*   Updated: 2025/04/07 18:11:54 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:45:49 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/push_swap.h"
 
-long	ft_atol(const char *str)
+void	pa(t_stacks *stacks)
 {
-	long	n;
-	int		flag;
-	long	i;
+	t_list	*a_head;
+	t_list	*b_head;
+	t_list	*temp;
 
-	n = 0;
-	flag = 1;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == 43 || str[i] == 45)
+	a_head = stacks->a_head;
+	b_head = stacks->b_head;
+	if (b_head == NULL)
+		return ;
+	temp = b_head;
+	stacks->b_head = b_head->next;
+	if (a_head == NULL)
 	{
-		if (str[i] == 45)
-			flag = -flag;
-		i++;
+		stacks->a_head = temp;
+		temp->next = NULL;
 	}
-	while (ft_isdigit(str[i]))
+	else
 	{
-		n = n * 10 + (str[i] - 48);
-		i++;
+		temp->next = a_head;
+		stacks->a_head = temp;
 	}
-	return (n * flag);
+	write(1, "pa\n", 3);
 }

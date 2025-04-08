@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/03/21 18:41:28 by saalarco         ###   ########.fr        #
+#    Updated: 2025/04/03 17:18:31 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,6 +113,23 @@ TESTS_SPLIT_SRCS4	= $(TEST_DIR)/test_split_4.c \
 
 TESTS_SPLIT_BIN4	= $(TEST_DIR)/test_split_4
 
+TESTS_OPERATIONS_SRC	= $(TEST_DIR)/test_operations.c \
+	src/print_list.c \
+	src/operations/ft_swap.c \
+	src/operations/sa.c \
+	src/operations/sb.c \
+	src/operations/ss.c \
+	src/operations/pb.c \
+	src/operations/ra.c \
+	src/operations/rra.c \
+	src/operations/pa.c \
+	src/operations/rb.c \
+	src/operations/rr.c \
+	src/operations/rrb.c \
+	src/operations/rrr.c
+
+TESTS_OPERATIONS_BIN	= $(TEST_DIR)/test_operations
+
 ###############################################################################
 #                              DEFAULT RULES                                  #
 ###############################################################################
@@ -198,6 +215,30 @@ test_pv_lldb : $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_PAR_VAR_SRCS) $(LIBS) -o $(TEST_PAR_VAR_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
 	lldb ./$(TEST_PAR_VAR_BIN)
+
+##
+## 2) basic operations
+##
+
+// TODO: importante valgrind en estos tests
+test_op_fs: $(LIBFT_LIB)
+	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
+	./$(TESTS_OPERATIONS_BIN)
+
+test_op_v: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
+	@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TESTS_OPERATIONS_BIN)
+
+test_op: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
+	./$(TESTS_OPERATIONS_BIN)
+
+
+
+
 	
 
 ###############################################################################
@@ -208,9 +249,8 @@ ci: fclean $(LIBFT_LIB)
 	
 	# TODO: library libft directly from git
 
-	@echo "==> Module parsing and validation tests..."
+	@echo "$(BLUE)==> Module parsing and validation tests...$(CLR_RMV)"
 	$(SILENT)$(MAKE) test_par_var
-
 
 	@echo "==> Building main project..."
 	$(SILENT)$(MAKE) all
@@ -262,8 +302,6 @@ ci: fclean $(LIBFT_LIB)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/7.log ./$(NAME) "24 2 4" 2 4 2 
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/8.log ./$(NAME) 364 3 "1234 6" 3 2
 
-
-	
 	@echo "$(RED)==> As integers:$(CLR_RMV)"
 	$(SILENT)cat tests/as_integers/*.log | grep "ERROR SUMMARY:"
 	@echo "$(RED)==> As strings:$(CLR_RMV)"
@@ -286,7 +324,17 @@ ci: fclean $(LIBFT_LIB)
 	$(SILENT)cat tests/peer_suggest/*.log | grep "All heap blocks we"
 	@echo "$(CLR_RMV)"
 
-	@echo "==> Valgrind test complete!"
+	@echo "==> Valgrind parsing and validation test completed!"
+
+	@echo "$(BLUE)==> Running basic operations tests$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_op
+
+	@echo "$(BLUE)==> Running basic operations tests with fsanitize$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_op_fs
+
+	@echo "$(BLUE)==> Running basic operations tests with valgrind$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_op_v
+
 	@echo "$(GREEN)==> CI-like pipeline complete!$(CLR_RMV)"
 
 ###############################################################################
@@ -302,6 +350,8 @@ clean:
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN2)
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN3)
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN4)
+	$(SILENT)rm -rf $(TESTS_OPERATIONS_BIN)
+
 	
 
 fclean: clean

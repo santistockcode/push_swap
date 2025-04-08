@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   ra.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: saalarco <saalarco@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:45:46 by saalarco          #+#    #+#             */
-/*   Updated: 2025/04/07 18:11:54 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:45:49 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/push_swap.h"
 
-long	ft_atol(const char *str)
+void	ra(t_stacks *stacks)
 {
-	long	n;
-	int		flag;
-	long	i;
+	t_list	*a_head;
+	t_list	*temp;
 
-	n = 0;
-	flag = 1;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == 43 || str[i] == 45)
+	a_head = stacks->a_head;
+	if (a_head == NULL || a_head->next == NULL)
+		return ;
+	else
 	{
-		if (str[i] == 45)
-			flag = -flag;
-		i++;
+		temp = a_head;
+		stacks->a_head = temp;
+		while (temp->next)
+		{
+			ft_swap(temp, temp->next);
+			temp = temp->next;
+		}
 	}
-	while (ft_isdigit(str[i]))
-	{
-		n = n * 10 + (str[i] - 48);
-		i++;
-	}
-	return (n * flag);
+	write(1, "ra\n", 3);
 }
