@@ -14,25 +14,24 @@
 
 void	move_rra(t_list *a_head)
 {
-	t_list	*temp;
-	void	*paso;
-	void	*st;
-	t_list	*start;
+	t_list	*current;
+	void	*grab_content;
+	void	*temp_content;
 
-	temp = a_head;
-	start = a_head;
-	st = temp->content;
-	paso = temp->next->content;
-	temp->next->content = st;
-	temp = temp->next;
-	while (temp->next)
+	current = a_head;
+	while (current->next)
 	{
-		st = temp->next->content;
-		temp->next->content = paso;
-		paso = st;
-		temp = temp->next;
+		current = current->next;
 	}
-	start->content = paso;
+	grab_content = current->content;
+	current = a_head;
+	while (current)
+	{
+		temp_content = current->content;
+		current->content = grab_content;
+		grab_content = temp_content;
+		current = current->next;
+	}
 }
 
 void	rra(t_stacks *stacks)
