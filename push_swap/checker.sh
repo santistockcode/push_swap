@@ -54,7 +54,7 @@ function test_stack_size() {
     echo "     Avg instructions: $avg_instructions"
 
     # Compare average instructions to threshold
-    if [ "$avg_instructions" -le "$THRESHOLD" ]; then
+    if [ "$avg_instructions" -le "$THRESHOLD" ] & [ $correct_count == $NUM_TESTS ] ; then
     echo -e "     ${GREEN}Performance: PASS (<= $THRESHOLD)${RESET}"
     else
     echo -e "     ${RED}Performance: FAIL (> $THRESHOLD)${RESET}"

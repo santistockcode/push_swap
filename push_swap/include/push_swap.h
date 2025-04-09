@@ -10,7 +10,7 @@ typedef struct s_number
 {
     int	value;
     int	index;
-    // mediana
+    int is_upper_half;
     // cheapest reference
     // faltan 2
 }	t_number;
@@ -25,12 +25,11 @@ void	print_error();
 // This function checks if the input is valid
 t_list  *valid_input_and_list(char **argv);
 
-
 // This function joins every argument with a space in betwee
 char    *ft_join_spaces(char **argv, int argc);
 
-void    free_argv(char **argv);
-
+// This util function print list
 void    print_list(t_list *head);
+
 
 #endif

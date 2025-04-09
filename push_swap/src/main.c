@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:38:21 by saalarco          #+#    #+#             */
-/*   Updated: 2025/04/09 08:16:56 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:19:00 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ int	main(int argc, char **argv)
 	if (!(stacks->a_head))
 		print_error();
 	else
+	// check here if ordered (que te ahorra los casos de 3 digitos)
+	// only pases a, not the whole stack
+	// wrappear lstclear de forma que si no hay a no lo vacíe
 		ft_lstclear(&(stacks->a_head), free);
 	free_argv(input);
     free(stacks);
