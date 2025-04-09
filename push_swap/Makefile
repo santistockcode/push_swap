@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
+#    By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/04/03 17:18:31 by saalarco         ###   ########.fr        #
+#    Updated: 2025/04/09 07:59:34 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -335,7 +335,11 @@ ci: fclean $(LIBFT_LIB)
 	@echo "$(BLUE)==> Running basic operations tests with valgrind$(CLR_RMV)"
 	$(SILENT)$(MAKE) test_op_v
 
+	@echo "$(BLUE)==> Running checker by 42$(CLR_RMV)"
+	$(SILENT)./checker.sh
+
 	@echo "$(GREEN)==> CI-like pipeline complete!$(CLR_RMV)"
+
 
 ###############################################################################
 #                              CLEAN RULES                                    #
