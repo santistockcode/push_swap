@@ -50,7 +50,6 @@ int is_ordered(t_list   *a_head)
     return (1);
 }
 
-// function that returns min number in the stack
 int find_min_number(t_list *a_head)
 {
     t_list *current;

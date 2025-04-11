@@ -11,10 +11,10 @@ RESET="\033[0m"
 CHECKER="./checker_linux"
 TEST_SIZES=(3 5)
 THRESHOLDS=(2 11)
-NUM_TESTS=25
+NUM_TESTS=120
 
-MIN_VAL=-999
-MAX_VAL=999
+MIN_VAL=-20
+MAX_VAL=20
 
 function test_stack_size() {
     local PUSH_SWAP="$1"

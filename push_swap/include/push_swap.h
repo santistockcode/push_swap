@@ -5,7 +5,9 @@
 # include "../libft/include/libft.h"
 # include "parse_validation.h"
 # include "operations.h"
-# include "order_stacks.h"
+# include "order.h"
+# include "order_few.h"
+# include "turk.h"
 
 typedef struct s_number
 {

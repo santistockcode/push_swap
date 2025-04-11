@@ -59,7 +59,26 @@ SRCS		= src/main.c \
 	src/print_list.c \
 	src/parse_validation/ft_atol.c \
 	src/parse_validation/error_duplicates.c \
-	src/parse_validation/ft_join_spaces.c
+	src/parse_validation/ft_join_spaces.c \
+	src/operations/ft_swap.c \
+	src/operations/sa.c \
+	src/operations/sb.c \
+	src/operations/ss.c \
+	src/operations/pb.c \
+	src/operations/ra.c \
+	src/operations/rra.c \
+	src/operations/pa.c \
+	src/operations/rb.c \
+	src/operations/rr.c \
+	src/operations/rrb.c \
+	src/operations/rrr.c \
+	src/order.c \
+	src/order_utils.c \
+	src/order_few/order_three.c \
+	src/order_few/order_five.c \
+	src/order_few/push_min_to_b.c \
+	src/turk/order_many.c
+
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -138,6 +157,29 @@ TESTS_ORDER_UTILS	= $(TEST_DIR)/test_order_utils.c \
 	src/order_utils.c 
 
 TESTS_ORDER_UTILS_BIN	= $(TEST_DIR)/test_order_utils
+
+TEST_ORDER = $(TEST_DIR)/test_order.c \
+	src/print_list.c \
+	src/operations/ft_swap.c \
+	src/operations/sa.c \
+	src/operations/sb.c \
+	src/operations/ss.c \
+	src/operations/pb.c \
+	src/operations/ra.c \
+	src/operations/rra.c \
+	src/operations/pa.c \
+	src/operations/rb.c \
+	src/operations/rr.c \
+	src/operations/rrb.c \
+	src/operations/rrr.c \
+	src/order.c \
+	src/order_utils.c \
+	src/order_few/order_three.c \
+	src/order_few/order_five.c \
+	src/order_few/push_min_to_b.c \
+	src/turk/order_many.c
+
+TEST_ORDER_BIN = $(TEST_DIR)/test_order
 
 ###############################################################################
 #                              DEFAULT RULES                                  #
@@ -245,7 +287,7 @@ test_op: $(LIBFT_LIB)
 	./$(TESTS_OPERATIONS_BIN)
 
 ##
-## 2) order_stacks
+## 2) order_utils
 ##
 
 test_order_utils: $(LIBFT_LIB)
@@ -264,7 +306,13 @@ test_order_utils_v: $(LIBFT_LIB)
 			./$(TESTS_ORDER_UTILS_BIN)
 
 
+##
+## 3) order
+##
 
+test_order: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_ORDER) $(LIBS) -o $(TEST_ORDER_BIN)
+	./$(TEST_ORDER_BIN)
 
 	
 
@@ -383,6 +431,8 @@ clean:
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN4)
 	$(SILENT)rm -rf $(TESTS_OPERATIONS_BIN)
 	$(SILENT)rm -rf $(TESTS_ORDER_UTILS_BIN)
+	$(SILENT)rm -rf $(TEST_ORDER_BIN)
+	
 
 	
 

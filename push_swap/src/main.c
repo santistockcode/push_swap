@@ -15,34 +15,27 @@
 int	main(int argc, char **argv)
 {
 	t_list	*a;
-	t_list *b;
-	t_stacks    *stacks;
-
 	char	**input;
 	char	*str;
 
 	a = NULL;
-	b = NULL;
 	input = NULL;
 	if (argc < 2 || (argc == 2 && !argv[1][0]))
-		return (0);
-	stacks = (t_stacks *)malloc(sizeof(t_stacks));
-    if (!stacks)
 		return (0);
 	str = ft_join_spaces(argv, argc);
 	input = ft_split_ps(str);
 	free(str);
 	if (input)
-		stacks->a_head = valid_input_and_list(input);
-	stacks->b_head = b;
-	if (!(stacks->a_head))
+		a = valid_input_and_list(input);
+
+	if (!(a))
 		print_error();
 	else
-	// check here if ordered (que te ahorra los casos de 3 digitos)
-	// only pases a, not the whole stack
-	// wrappear lstclear de forma que si no hay a no lo vacíe
-		ft_lstclear(&(stacks->a_head), free);
+	{
+		if (!is_ordered(a))
+			order_a(a);
+		ft_lstclear(&a, free);
+	}
 	free_argv(input);
-    free(stacks);
 	return (0);
 }
