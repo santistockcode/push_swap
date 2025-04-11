@@ -130,6 +130,15 @@ TESTS_OPERATIONS_SRC	= $(TEST_DIR)/test_operations.c \
 
 TESTS_OPERATIONS_BIN	= $(TEST_DIR)/test_operations
 
+TESTS_ORDER_UTILS	= $(TEST_DIR)/test_order_utils.c \
+	src/print_list.c \
+	src/operations/sa.c \
+	src/operations/ft_swap.c \
+	src/operations/ra.c \
+	src/order_utils.c 
+
+TESTS_ORDER_UTILS_BIN	= $(TEST_DIR)/test_order_utils
+
 ###############################################################################
 #                              DEFAULT RULES                                  #
 ###############################################################################
@@ -220,7 +229,6 @@ test_pv_lldb : $(TEST_PAR_VAR_BIN) $(LIBFT_LIB)
 ## 2) basic operations
 ##
 
-// TODO: importante valgrind en estos tests
 test_op_fs: $(LIBFT_LIB)
 	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
 	./$(TESTS_OPERATIONS_BIN)
@@ -235,6 +243,25 @@ test_op_v: $(LIBFT_LIB)
 test_op: $(LIBFT_LIB)
 	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_OPERATIONS_SRC) $(LIBS) -o $(TESTS_OPERATIONS_BIN)
 	./$(TESTS_OPERATIONS_BIN)
+
+##
+## 2) order_stacks
+##
+
+test_order_utils: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_ORDER_UTILS) $(LIBS) -o $(TESTS_ORDER_UTILS_BIN)
+	./$(TESTS_ORDER_UTILS_BIN)
+
+test_order_utils_fs: $(LIBFT_LIB)
+	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TESTS_ORDER_UTILS) $(LIBS) -o $(TESTS_ORDER_UTILS_BIN)
+	./$(TESTS_ORDER_UTILS_BIN)
+
+test_order_utils_v: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TESTS_ORDER_UTILS) $(LIBS) -o $(TESTS_ORDER_UTILS_BIN)
+	@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TESTS_ORDER_UTILS_BIN)
 
 
 
@@ -355,6 +382,7 @@ clean:
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN3)
 	$(SILENT)rm -rf $(TESTS_SPLIT_BIN4)
 	$(SILENT)rm -rf $(TESTS_OPERATIONS_BIN)
+	$(SILENT)rm -rf $(TESTS_ORDER_UTILS_BIN)
 
 	
 
