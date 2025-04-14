@@ -10,11 +10,11 @@ RESET="\033[0m"
 
 CHECKER="./checker_linux"
 TEST_SIZES=(3 5)
-THRESHOLDS=(2 11)
+THRESHOLDS=(2 12)
 NUM_TESTS=120
 
-MIN_VAL=-20
-MAX_VAL=20
+MIN_VAL=-999
+MAX_VAL=999
 
 function test_stack_size() {
     local PUSH_SWAP="$1"
@@ -32,7 +32,13 @@ function test_stack_size() {
 
         # Count instructions
         INSTR_COUNT=$(./$PUSH_SWAP $ARG | wc -l)
-
+        # echo "$INSTR_COUNT"
+        if [ "$INSTR_COUNT" -gt "$THRESHOLD" ]; then
+            echo -e "${RED}Test failed! Instruction count $INSTR_COUNT exceeded threshold $THRESHOLD${RESET}"
+            echo -e "${YELLOW}Failing ARG:${RESET} $ARG"
+            exit 1
+        fi
+        
         # Check with checker_linux => OK or KO
         RESULT=$(./$PUSH_SWAP $ARG | $CHECKER $ARG)
 
