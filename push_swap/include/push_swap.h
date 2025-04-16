@@ -14,8 +14,9 @@ typedef struct s_number
     int	value;
     int	index;
     int is_upper_half;
-    // cheapest reference
-    // faltan 2
+    t_list *target_node;
+    int price;
+    int is_cheapest;
 }	t_number;
 
 
