@@ -2,3 +2,4 @@
 Thumbs.db
 push_swap_read_examples/examples/*
 push_swap/tests/**/*.log
+push_swap/tests/**/**/*.log

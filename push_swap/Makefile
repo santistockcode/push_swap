@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/04/09 18:27:03 by saalarco         ###   ########.fr        #
+#    Updated: 2025/04/16 17:49:25 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -314,6 +314,22 @@ test_order: $(LIBFT_LIB)
 	$(CC) $(FLAGS) $(INCLUDES) $(TEST_ORDER) $(LIBS) -o $(TEST_ORDER_BIN)
 	./$(TEST_ORDER_BIN)
 
+test_order_fs: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_ORDER) $(LIBS) -o $(TEST_ORDER_BIN)
+	./$(TEST_ORDER_BIN)
+
+test_order_v: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_ORDER) $(LIBS) -o $(TEST_ORDER_BIN)
+	@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes ./$(TEST_ORDER_BIN)
+		
+test_checker_42: all
+	$(SILENT)./check_order.sh
+
+test_checker_valgrind: all
+	$(SILENT)./check_leaks.sh
+
 	
 
 ###############################################################################
@@ -377,13 +393,13 @@ ci: fclean $(LIBFT_LIB)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/7.log ./$(NAME) "24 2 4" 2 4 2 
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/peer_suggest/8.log ./$(NAME) 364 3 "1234 6" 3 2
 
-	@echo "$(RED)==> As integers:$(CLR_RMV)"
+	@echo "$(GREEN)==> As integers:$(CLR_RMV)"
 	$(SILENT)cat tests/as_integers/*.log | grep "ERROR SUMMARY:"
-	@echo "$(RED)==> As strings:$(CLR_RMV)"
+	@echo "$(GREEN)==> As strings:$(CLR_RMV)"
 	$(SILENT)cat tests/as_string/*.log | grep "ERROR SUMMARY:"
-	@echo "$(RED)==> Limit cases:$(CLR_RMV)"
+	@echo "$(GREEN)==> Limit cases:$(CLR_RMV)"
 	$(SILENT)cat tests/limit_cases/*.log | grep "ERROR SUMMARY:"
-	@echo "$(RED)==> Peer review:$(CLR_RMV)"
+	@echo "$(GREEN)==> Peer review:$(CLR_RMV)"
 	$(SILENT)cat tests/peer_suggest/*.log | grep "ERROR SUMMARY:"
 	@echo "$(CLR_RMV)"
 
@@ -410,8 +426,14 @@ ci: fclean $(LIBFT_LIB)
 	@echo "$(BLUE)==> Running basic operations tests with valgrind$(CLR_RMV)"
 	$(SILENT)$(MAKE) test_op_v
 
-	@echo "$(BLUE)==> Running checker by 42$(CLR_RMV)"
-	$(SILENT)./checker.sh
+	@echo "$(BLUE)==> Running order tests$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_order
+
+	@echo "$(BLUE)==> Running order tests with fsanitize$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_order_fs
+
+	@echo "$(BLUE)==> Running order tests with valgrind$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_order_v
 
 	@echo "$(GREEN)==> CI-like pipeline complete!$(CLR_RMV)"
 
