@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   order.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 19:38:21 by saalarco          #+#    #+#             */
-/*   Updated: 2025/04/14 17:55:50 by saalarco         ###   ########.fr       */
+/*   Created: 2025/04/14 17:54:09 by saalarco          #+#    #+#             */
+/*   Updated: 2025/04/14 17:54:42 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-int	main(int argc, char **argv)
+void	order_a(t_list *a_head)
 {
-	t_list	*a;
-	char	**input;
-	char	*str;
+	t_stacks	*stacks;
+	int			size;
 
-	a = NULL;
-	input = NULL;
-	if (argc < 2 || (argc == 2 && !argv[1][0]))
-		return (0);
-	str = ft_join_spaces(argv, argc);
-	input = ft_split_ps(str);
-	free(str);
-	if (input)
-		a = valid_input_and_list(input);
-	if (!(a))
-		print_error();
+	stacks = (t_stacks *)malloc(sizeof(t_stacks));
+	if (!stacks)
+		return ;
+	stacks->a_head = a_head;
+	stacks->b_head = NULL;
+	size = ft_lstsize(a_head);
+	update_indexes(stacks->a_head);
+	if (size == 2)
+		sa(stacks);
+	else if (size == 3)
+		order_three(stacks);
+	else if (size <= 5)
+		order_five(stacks);
 	else
-	{
-		if (!is_ordered(a))
-			order_a(a);
-		ft_lstclear(&a, free);
-	}
-	free_argv(input);
-	return (0);
+		order_many(stacks);
+	free(stacks);
 }
