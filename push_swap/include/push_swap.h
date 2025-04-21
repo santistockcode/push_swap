@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/21 08:25:11 by saalarco          #+#    #+#             */
+/*   Updated: 2025/04/21 09:47:44 by saalarco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
@@ -15,7 +27,9 @@ typedef struct s_number
     int	index;
     int is_upper_half;
     t_list *target_node;
-    int price;
+    int price_a;
+    int price_b;
+    int total_price;
     int is_cheapest;
 }	t_number;
 
