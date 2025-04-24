@@ -250,12 +250,102 @@ static void test_calculate_price(void)
 
 }
 
+
+static void test_mark_cheapest(void)
+{
+    srand(99);
+
+    for (int run = 0; run < 8; ++run)
+    {
+        int size_a = 4 + rand() % 5;  /* 4..8  */
+        int size_b = 4 + rand() % 5;  /* 4..8  */
+        int total  = size_a + size_b;
+        int pool[32];
+
+        /* build unique random pool */
+        int used = 0;
+        while (used < total)
+        {
+            int n = (rand() % 20000) - 10000;
+            int dup = 0;
+            for (int i = 0; i < used; ++i)
+                if (pool[i] == n)
+                    dup = 1;
+            if (!dup) pool[used++] = n;
+        }
+
+        /* build stacks */
+        t_list *a = NULL;
+        t_list *b = NULL;
+        for (int i = 0; i < size_a; ++i)
+            ft_lstadd_back(&a, ft_lstnew(num_new(pool[i])));
+        for (int i = 0; i < size_b; ++i)
+            ft_lstadd_back(&b, ft_lstnew(num_new(pool[size_a + i])));
+
+        /* metadata + calls under test */
+        update_indexes(a);
+        update_indexes(b);
+        set_target_a(a, b);
+        calculate_price(a, b);
+        mark_cheapest(a);
+
+        /* validate every node in A */
+        t_list *iter = a;
+            t_list *iter2 = a;
+        int marked = 0;
+        int min = INT_MAX;
+        int val_num = 0;
+        while (iter)
+        {
+            t_number *nbr    = (t_number *)iter->content;
+            t_list   *target = nbr->target_node;
+            assert(target);             /* target must be set */
+
+            int cost_a  = rotate_cost(nbr->index,
+                                      size_a);
+            int cost_b  = rotate_cost(((t_number *)target->content)->index,
+                                      size_b);
+            int expect_total = total_overlap(cost_a, cost_b);
+
+            /* individual costs */
+            assert(nbr->price_a == cost_a);
+            assert(nbr->price_b == cost_b);
+            assert(nbr->total_price == expect_total);
+            if (nbr->is_cheapest == 1)
+            {
+                val_num = nbr->value;
+                marked++;
+            }
+            if (nbr->total_price < min)
+                min = nbr->total_price;
+
+            iter = iter->next;
+        }
+        assert (marked == 1);
+        
+        while (iter2)
+        {
+            t_number *nbr2    = (t_number *)iter2->content;
+            if (nbr2->value == val_num)
+            {
+                assert(nbr2->total_price == min);
+            }
+
+            iter2 = iter2->next;
+        }
+
+        ft_lstclear(&a, free);
+        ft_lstclear(&b, free);
+    }
+
+}
+
 int main(void)
 {
     // test_push_from_a_to_b();
     // test_do_cheapest_move_a_to_b();
     test_set_target_a();
     test_calculate_price();
-    // test_mark_cheapest();
+    test_mark_cheapest();
     return(0);
 }
