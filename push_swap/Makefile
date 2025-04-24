@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/04/16 17:49:25 by saalarco         ###   ########.fr        #
+#    Updated: 2025/04/21 13:10:45 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -181,6 +181,34 @@ TEST_ORDER = $(TEST_DIR)/test_order.c \
 
 TEST_ORDER_BIN = $(TEST_DIR)/test_order
 
+TEST_TURK = $(TEST_DIR)/test_turk.c \
+	src/print_list.c \
+	src/operations/ft_swap.c \
+	src/operations/sa.c \
+	src/operations/sb.c \
+	src/operations/ss.c \
+	src/operations/pb.c \
+	src/operations/ra.c \
+	src/operations/rra.c \
+	src/operations/pa.c \
+	src/operations/rb.c \
+	src/operations/rr.c \
+	src/operations/rrb.c \
+	src/operations/rrr.c \
+	src/order.c \
+	src/order_utils.c \
+	src/order_few/order_three.c \
+	src/order_few/order_five.c \
+	src/order_few/push_min_to_b.c \
+	src/turk/order_many.c \
+	src/turk/calculate_price.c \
+	src/turk/mark_cheapest.c \
+	src/turk/push_from_a_to_b/push_from_a_to_b.c \
+	src/turk/push_from_a_to_b/set_target_a.c \
+	src/turk/push_from_a_to_b/do_cheapest_move_a_to_b.c
+
+TEST_TURK_BIN = $(TEST_DIR)/test_turk
+
 ###############################################################################
 #                              DEFAULT RULES                                  #
 ###############################################################################
@@ -330,6 +358,20 @@ test_checker_42: all
 test_checker_valgrind: all
 	$(SILENT)./check_leaks.sh
 
+##
+## 4) algorithm turco
+##
+
+test_turk: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_TURK) $(LIBS) -o $(TEST_TURK_BIN)
+	./$(TEST_TURK_BIN)
+
+test_turk_v: $(LIBFT_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_TURK) $(LIBS) -o $(TEST_TURK_BIN)
+	@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes ./$(TEST_TURK_BIN)
+
 	
 
 ###############################################################################
@@ -454,6 +496,8 @@ clean:
 	$(SILENT)rm -rf $(TESTS_OPERATIONS_BIN)
 	$(SILENT)rm -rf $(TESTS_ORDER_UTILS_BIN)
 	$(SILENT)rm -rf $(TEST_ORDER_BIN)
+	$(SILENT)rm -rf $(TEST_TURK_BIN)
+
 	
 
 	

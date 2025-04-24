@@ -1,24 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   order_many.c                                       :+:      :+:    :+:   */
+/*   mark_cheapest.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/14 17:49:14 by saalarco          #+#    #+#             */
-/*   Updated: 2025/04/21 11:14:10 by saalarco         ###   ########.fr       */
+/*   Created: 2025/04/21 11:11:02 by saalarco          #+#    #+#             */
+/*   Updated: 2025/04/21 11:11:03 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "../../include/push_swap.h"
 
-void	order_many(t_stacks *stacks)
-{
-		if (stacks)
-		printf("Sorry, algorithm not developed yet\n");
-	// push_from_a_to_b(&(stacks->a_head), &(stacks->b_head));
-	// order_three(stacks);
-	// push_from_b_to_a(&(stacks->a_head), &(stacks->b_head));
-	// rotate_stack_a_min_to_top(&(stacks->a_head));
-}
+void    mark_cheapest(t_list *stack);
