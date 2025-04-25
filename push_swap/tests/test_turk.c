@@ -100,7 +100,7 @@ static int expected_target_value(int v, t_list *b)
 // chatgpt dixit
 static void test_set_target_a(void)
 {
-    srand(42);                        /* deterministic randomness   */
+    srand(time(NULL));                        /* deterministic randomness   */
 
     for (int run = 0; run < 10; ++run)
     {
@@ -185,7 +185,7 @@ static int total_overlap(int cost_a, int cost_b)
 
 static void test_calculate_price(void)
 {
-    srand(99);
+    srand(time(NULL));
 
     for (int run = 0; run < 30; ++run)
     {
@@ -253,7 +253,7 @@ static void test_calculate_price(void)
 
 static void test_mark_cheapest(void)
 {
-    srand(99);
+    srand(time(NULL));
 
     for (int run = 0; run < 8; ++run)
     {
@@ -301,10 +301,8 @@ static void test_mark_cheapest(void)
             t_list   *target = nbr->target_node;
             assert(target);             /* target must be set */
 
-            int cost_a  = rotate_cost(nbr->index,
-                                      size_a);
-            int cost_b  = rotate_cost(((t_number *)target->content)->index,
-                                      size_b);
+            int cost_a  = rotate_cost(nbr->index, size_a);
+            int cost_b  = rotate_cost(((t_number *)target->content)->index, size_b);
             int expect_total = total_overlap(cost_a, cost_b);
 
             /* individual costs */
@@ -337,13 +335,113 @@ static void test_mark_cheapest(void)
         ft_lstclear(&a, free);
         ft_lstclear(&b, free);
     }
+}
 
+void test_do_cheapest_move_a_to_b()
+{
+    t_stacks *stacks;
+    srand(time(NULL));
+
+    for (int run = 0; run < 10; ++run)
+    {
+        int size_a = 4 + rand() % 5;  /* 4..8  */
+        int size_b = 4 + rand() % 5;  /* 4..8  */
+        int total  = size_a + size_b;
+        int pool[32];
+
+        /* build unique random pool */
+        int used = 0;
+        while (used < total)
+        {
+            int n = (rand() % 100) - 5;
+            int dup = 0;
+            for (int i = 0; i < used; ++i)
+                if (pool[i] == n)
+                    dup = 1;
+            if (!dup) pool[used++] = n;
+        }
+
+        /* build stacks */
+        t_list *a = NULL;
+        t_list *b = NULL;
+        for (int i = 0; i < size_a; ++i)
+            ft_lstadd_back(&a, ft_lstnew(num_new(pool[i])));
+        for (int i = 0; i < size_b; ++i)
+            ft_lstadd_back(&b, ft_lstnew(num_new(pool[size_a + i])));
+
+        /* metadata + calls under test */
+        update_indexes(a);
+        update_indexes(b);
+        set_target_a(a, b);
+        calculate_price(a, b);
+        mark_cheapest(a);
+        // printf("----------------------------before\n");
+        // printf("---------------------------------A\n");
+        // print_list(a);
+        // printf("---------------------------------B\n");
+        // print_list(b);
+        stacks = malloc(sizeof(t_stacks));
+        stacks->a_head = a;
+        stacks->b_head = b;
+        /* print cheapest */
+
+        /* call function under test */
+        do_cheapest_move_a_to_b(stacks);
+
+        // printf("----------------------------after\n");
+        // printf("---------------------------------A\n");
+        // print_list(stacks->a_head);
+        // printf("---------------------------------B\n");
+        // print_list(stacks->b_head);
+
+        ft_lstclear(&(stacks->a_head), free);
+        ft_lstclear(&(stacks->b_head), free);
+        free(stacks);
+    }
+}
+
+/*
+This functions creates stacks and populates just a_head.
+*/
+void test_push_from_a_to_b()
+{
+    srand(time(NULL));
+    t_stacks *stacks;
+    stacks = malloc(sizeof(t_stacks));
+    stacks->a_head = NULL;
+    stacks->b_head = NULL;
+
+    // populate a with random non duplicated values
+    int total = 13;
+    int pool[13];
+
+    /* build unique random pool */
+    int used = 0;
+    while (used < total)
+    {
+        int n = (rand() % 1000) - 500;
+        int dup = 0;
+        for (int i = 0; i < used; ++i)
+            if (pool[i] == n)
+                dup = 1;
+        if (!dup) pool[used++] = n;
+    }
+
+    for (int i = 0; i < 13; ++i)
+        ft_lstadd_back(&(stacks->a_head), ft_lstnew(num_new(pool[i])));
+
+    /* 2. run the function under test */
+    push_from_a_to_b(stacks);
+
+    ft_lstclear(&(stacks->a_head), free);
+    ft_lstclear(&(stacks->b_head), free);
+    free(stacks);
 }
 
 int main(void)
 {
-    // test_push_from_a_to_b();
-    // test_do_cheapest_move_a_to_b();
+    test_push_from_a_to_b();
+    test_do_cheapest_move_a_to_b();
     test_set_target_a();
     test_calculate_price();
     test_mark_cheapest();

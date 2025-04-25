@@ -18,7 +18,7 @@ void	print_list(t_list *head)
 	t_number	*number;
 
 	current = head;
-	while (current != NULL)
+while (current != NULL)
 	{
 		number = (t_number *)current->content;
 		ft_printf("Value: %d, Index: %d\n", number->value, number->index);

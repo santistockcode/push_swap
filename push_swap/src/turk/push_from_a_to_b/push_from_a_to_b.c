@@ -13,4 +13,23 @@
 #include <stdio.h>
 #include "../../../include/push_swap.h"
 
-void	push_from_a_to_b(t_list **stack_a, t_list **stack_b);
+void	push_from_a_to_b(t_stacks *st)
+{
+    pb(st);
+    pb(st);
+    while (ft_lstsize(st->a_head) > 3)
+    {
+        update_indexes(st->a_head);
+        update_indexes(st->b_head);
+        set_target_a(st->a_head, st->b_head);
+        calculate_price(st->a_head, st->b_head);
+        mark_cheapest(st->a_head);
+        do_cheapest_move_a_to_b(st);
+        // printf("pushed from A to B\n");
+        // printf("---------------------------------A\n");
+        // print_list(st->a_head);
+        // printf("---------------------------------B\n");
+        // print_list(st->b_head);
+        // printf("END\n");
+    }
+}

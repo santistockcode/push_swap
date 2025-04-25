@@ -18,7 +18,7 @@ void order_many(t_stacks *stacks);
 /**
  * Push everything except 3 elements from stack_a to stack_b.
  */
-void    push_from_a_to_b(t_list **stack_a, t_list **stack_b);
+void    push_from_a_to_b(t_stacks *stacks);
 
 
 /**
@@ -42,7 +42,7 @@ void    calculate_price(t_list *stack_a, t_list *stack_b);
 void    mark_cheapest(t_list *stack);
 
 // From info index + is_upper_half + is_cheapest
-void    do_cheapest_move_a_to_b(t_list **stack_a, t_list **stack_b);
+void    do_cheapest_move_a_to_b(t_stacks *stacks);
 
 // order three
 
