@@ -433,6 +433,41 @@ void test_push_from_a_to_b()
     /* 2. run the function under test */
     push_from_a_to_b(stacks);
 
+    // assert size a is 3
+    assert(ft_lstsize(stacks->a_head) == 3);
+
+    int min = find_min_number(stacks->b_head);
+    t_list *current;
+
+    current = stacks->b_head;
+    update_indexes((stacks->a_head));
+    update_indexes((stacks->b_head));
+    // test that from the max number is in desc order to the beggining
+    while (current && current->next)
+    {
+        t_number *n1 = ((t_number *)current->content);
+        t_number *n2 = ((t_number *)current->next->content);
+        if (n1->value == min)
+            break ;
+        assert (n1->value > n2->value);
+        current = current->next;
+    }
+    // test that from the minimun number is in asc order to the end
+    if (current->next)
+    {
+        // position on the max number
+        current = current->next;
+        t_number *max = ((t_number *)current->content);
+        assert (max->value == find_max_number(stacks->b_head));
+         while (current && current->next)
+            {
+                t_number *num1 = ((t_number *)current->content);
+                t_number *num2 = ((t_number *)current->next->content);
+                assert (num1->value > num2->value);
+                current = current->next;
+            }
+    }
+
     ft_lstclear(&(stacks->a_head), free);
     ft_lstclear(&(stacks->b_head), free);
     free(stacks);
@@ -445,5 +480,13 @@ int main(void)
     test_set_target_a();
     test_calculate_price();
     test_mark_cheapest();
+
+    // TODO: this tests
+    // test_rotate_stack_a_min_to_top();
+    // test_order_many();
+    // test_push_from_b_to_a();
+    // test_do_cheapest_move_b_to_a();
+    // test_set_target_b();
+    
     return(0);
 }

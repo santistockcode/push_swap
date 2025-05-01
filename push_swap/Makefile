@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/04/21 13:10:45 by saalarco         ###   ########.fr        #
+#    Updated: 2025/05/01 11:29:53 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,16 @@ SRCS		= src/main.c \
 	src/order_few/order_three.c \
 	src/order_few/order_five.c \
 	src/order_few/push_min_to_b.c \
-	src/turk/order_many.c
+	src/turk/order_many.c \
+	src/turk/calculate_price.c \
+	src/turk/mark_cheapest.c \
+	src/turk/push_from_a_to_b/push_from_a_to_b.c \
+	src/turk/push_from_a_to_b/set_target_a.c \
+	src/turk/push_from_a_to_b/do_cheapest_move_a_to_b.c \
+	src/turk/push_from_b_to_a/push_from_b_to_a.c \
+	src/turk/push_from_b_to_a/set_target_b.c \
+	src/turk/push_from_b_to_a/do_cheapest_move_b_to_a.c \
+	src/turk/rotate_stack_a_min_to_top.c
 
                          
 OBJS        := $(SRCS:.c=.o)
@@ -177,7 +186,16 @@ TEST_ORDER = $(TEST_DIR)/test_order.c \
 	src/order_few/order_three.c \
 	src/order_few/order_five.c \
 	src/order_few/push_min_to_b.c \
-	src/turk/order_many.c
+	src/turk/order_many.c \
+	src/turk/calculate_price.c \
+	src/turk/mark_cheapest.c \
+	src/turk/push_from_a_to_b/push_from_a_to_b.c \
+	src/turk/push_from_a_to_b/set_target_a.c \
+	src/turk/push_from_a_to_b/do_cheapest_move_a_to_b.c \
+	src/turk/push_from_b_to_a/push_from_b_to_a.c \
+	src/turk/push_from_b_to_a/set_target_b.c \
+	src/turk/push_from_b_to_a/do_cheapest_move_b_to_a.c \
+	src/turk/rotate_stack_a_min_to_top.c
 
 TEST_ORDER_BIN = $(TEST_DIR)/test_order
 
@@ -205,7 +223,11 @@ TEST_TURK = $(TEST_DIR)/test_turk.c \
 	src/turk/mark_cheapest.c \
 	src/turk/push_from_a_to_b/push_from_a_to_b.c \
 	src/turk/push_from_a_to_b/set_target_a.c \
-	src/turk/push_from_a_to_b/do_cheapest_move_a_to_b.c
+	src/turk/push_from_a_to_b/do_cheapest_move_a_to_b.c \
+	src/turk/push_from_b_to_a/push_from_b_to_a.c \
+	src/turk/push_from_b_to_a/set_target_b.c \
+	src/turk/push_from_b_to_a/do_cheapest_move_b_to_a.c \
+	src/turk/rotate_stack_a_min_to_top.c
 
 TEST_TURK_BIN = $(TEST_DIR)/test_turk
 
@@ -352,11 +374,6 @@ test_order_v: $(LIBFT_LIB)
 			--show-leak-kinds=all \
 			--track-origins=yes ./$(TEST_ORDER_BIN)
 		
-test_checker_42: all
-	$(SILENT)./check_order.sh
-
-test_checker_valgrind: all
-	$(SILENT)./check_leaks.sh
 
 ##
 ## 4) algorithm turco
@@ -372,6 +389,15 @@ test_turk_v: $(LIBFT_LIB)
 			--show-leak-kinds=all \
 			--track-origins=yes ./$(TEST_TURK_BIN)
 
+##
+## 5) checker from 42
+##
+
+test_checker_42: all
+	$(SILENT)./check_order.sh
+
+test_checker_valgrind: all
+	$(SILENT)./check_leaks.sh
 	
 
 ###############################################################################
@@ -387,7 +413,11 @@ ci: fclean $(LIBFT_LIB)
 
 	@echo "==> Building main project..."
 	$(SILENT)$(MAKE) all
-	
+	mkdir -p tests/as_integers
+	mkdir -p tests/as_string
+	mkdir -p tests/limit_cases
+	mkdir -p tests/peer_suggest
+	mkdir -p tests/check_leaks
 	@echo "$(BLUE)==> Running valgrind test empty...$(CLR_RMV)"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_integers/empty.log ./$(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=tests/as_string/empty.log ./$(NAME) ""
@@ -476,6 +506,18 @@ ci: fclean $(LIBFT_LIB)
 
 	@echo "$(BLUE)==> Running order tests with valgrind$(CLR_RMV)"
 	$(SILENT)$(MAKE) test_order_v
+
+	@echo "$(BLUE)==> Running turk algorithm tests$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_turk
+
+	@echo "$(BLUE)==> Running turk algorithm tests with valgrind$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_turk_v
+
+	@echo "$(BLUE)==> Running checker_linux 42$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_checker_42
+
+	@echo "$(BLUE)==> Running cases up to 500 numbers with valgrind (see check_leaks folder)$(CLR_RMV)"
+	$(SILENT)$(MAKE) test_checker_valgrind
 
 	@echo "$(GREEN)==> CI-like pipeline complete!$(CLR_RMV)"
 

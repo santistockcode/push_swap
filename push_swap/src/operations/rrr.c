@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rrr.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saalarco <saalarco@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:45:46 by saalarco          #+#    #+#             */
-/*   Updated: 2025/04/07 17:45:49 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:33:48 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	rrb_no_print(t_stacks *stacks)
 	{
 		move_b(b_head);
 	}
-	write (1, "rrb\n", 4);
 }
 
 void	move_a(t_list *a_head)

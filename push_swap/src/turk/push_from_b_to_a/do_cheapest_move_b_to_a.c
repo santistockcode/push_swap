@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_cheapest_move_a_to_b.c                          :+:      :+:    :+:   */
+/*   do_cheapest_move_b_to_a.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:54:11 by saalarco          #+#    #+#             */
-/*   Updated: 2025/05/01 10:24:46 by saalarco         ###   ########.fr       */
+/*   Created: 2025/05/01 10:53:28 by saalarco          #+#    #+#             */
+/*   Updated: 2025/05/01 11:16:57 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "../../../include/push_swap.h"
 
-t_list	*find_cheapest_node(t_list *stack_a)
+t_list	*find_cheapest_node_b(t_list *stack_a)
 {
 	t_list	*current;
 
@@ -27,54 +27,54 @@ t_list	*find_cheapest_node(t_list *stack_a)
 	return (NULL);
 }
 
-void	rr_ra_rb(t_stacks *st, int price_a, int price_b)
+void	rr_ra_rb_b_to_a(t_stacks *st, int price_a, int price_b)
 {
 	if (price_a >= price_b)
 	{
 		while (price_a-- > price_b)
-			ra(st);
+			rb(st);
 		while (price_b-- > 0)
 			rr(st);
 	}
 	else if (price_a <= price_b)
 	{
 		while (price_b-- > price_a)
-			rb(st);
+			ra(st);
 		while (price_a-- > 0)
 			rr(st);
 	}
-	pb(st);
+	pa(st);
 }
 
-void	rrr_rra_rrb(t_stacks *st, int price_a, int price_b)
+void	rrr_rra_rrb_b_to_a(t_stacks *st, int price_a, int price_b)
 {
 	if (price_a <= price_b)
 	{
 		while (price_a++ < price_b)
-			rra(st);
+			rrb(st);
 		while (price_b++ < 0)
 			rrr(st);
 	}
 	else if (price_a >= price_b)
 	{
 		while (price_b++ < price_a)
-			rrb(st);
+			rra(st);
 		while (price_a++ < 0)
 			rrr(st);
 	}
-	pb(st);
+	pa(st);
 }
 
-void	optimus_case_scenario(t_stacks *st, int price_a, int price_b)
+void	best_case_scenario(t_stacks *st, int price_a, int price_b)
 {
 	if (price_a >= 0 && price_b >= 0)
 	{
-		rr_ra_rb(st, price_a, price_b);
+		rr_ra_rb_b_to_a(st, price_a, price_b);
 		return ;
 	}
 	else if (price_a <= 0 && price_b <= 0)
 	{
-		rrr_rra_rrb(st, price_a, price_b);
+		rrr_rra_rrb_b_to_a(st, price_a, price_b);
 		return ;
 	}
 }
@@ -93,31 +93,31 @@ If price_a is negative and price_b is positive,
 it means that the cheapest move is to
 reverse rotate stack_a and rotate stack_b, and then push a to b.
 If */
-void	do_cheapest_move_a_to_b(t_stacks *st)
+void	do_cheapest_move_b_to_a(t_stacks *st)
 {
 	t_list	*cheapest_node;
 	int		price_a;
 	int		price_b;
 
-	cheapest_node = find_cheapest_node(st->a_head);
+	cheapest_node = find_cheapest_node_b(st->b_head);
 	price_a = ((t_number *)cheapest_node->content)->price_a;
 	price_b = ((t_number *)cheapest_node->content)->price_b;
 	if ((price_a >= 0 && price_b >= 0) || (price_a <= 0 && price_b <= 0))
-		optimus_case_scenario(st, price_a, price_b);
+		best_case_scenario(st, price_a, price_b);
 	else if (price_a > 0 && price_b < 0)
 	{
 		while (price_a-- > 0)
-			ra(st);
+			rb(st);
 		while (price_b++ < 0)
-			rrb(st);
-		pb(st);
+			rra(st);
+		pa(st);
 	}
 	else if (price_a < 0 && price_b > 0)
 	{
 		while (price_a++ < 0)
-			rra(st);
+			rrb(st);
 		while (price_b-- > 0)
-			rb(st);
-		pb(st);
+			ra(st);
+		pa(st);
 	}
 }
