@@ -257,11 +257,8 @@ Implement each move as a separate function, each conforming to the project’s s
 
 ---
 
-### Final Notes
+### How to run docker container
 
-- **Iterate**: Expect to revisit the design as you discover better ways to structure your operations or sorting logic.
-- **Keep it Modular**: The more isolated your operations and sorting logic are, the easier it is to debug or extend.
-- **Document**: Briefly comment your functions—especially ones that perform tricky pointer manipulations or sorting steps.  
-- **Refactor**: If your code grows unwieldy, break out functions and keep each piece small and focused.
+docker build -t pushswap-dev .
 
-Good luck with your push_swap project!
+docker run -it --rm -v "$PWD":/workspace pushswap-dev
