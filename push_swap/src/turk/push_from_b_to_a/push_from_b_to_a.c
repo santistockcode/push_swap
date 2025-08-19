@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_list.c                                       :+:      :+:    :+:   */
+/*   push_from_b_to_a.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saalarco <saalarco@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 18:20:03 by saalarco          #+#    #+#             */
-/*   Updated: 2025/05/01 10:55:18 by saalarco         ###   ########.fr       */
+/*   Created: 2025/04/24 18:54:34 by saalarco          #+#    #+#             */
+/*   Updated: 2025/05/01 10:55:55 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/push_swap.h"
+#include <stdio.h>
+#include "../../../include/push_swap.h"
 
-void	print_list(t_list *head)
+void	push_from_b_to_a(t_stacks *st)
 {
-	t_list		*current;
-	t_number	*number;
-
-	current = head;
-	while (current != NULL)
+	while (ft_lstsize(st->b_head))
 	{
-		number = (t_number *)current->content;
-		ft_printf("Value: %d, Index: %d\n", number->value, number->index);
-		current = current->next;
+		update_indexes(st->a_head);
+		update_indexes(st->b_head);
+		set_target_b(st->b_head, st->a_head);
+		calculate_price(st->b_head, st->a_head);
+		mark_cheapest(st->b_head);
+		do_cheapest_move_b_to_a(st);
 	}
 }

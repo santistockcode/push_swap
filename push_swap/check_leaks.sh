@@ -8,8 +8,8 @@ RED="\033[31m"
 RESET="\033[0m"
 
 CHECKER="./checker_linux"
-TEST_SIZES=(3 5 10)
-THRESHOLDS=(2 12 1)
+TEST_SIZES=(3 5 100 500)
+THRESHOLDS=(2 12 700 5500)
 NUM_TESTS=10
 
 MIN_VAL=-999
@@ -25,7 +25,7 @@ function test_stack_size() {
 
     echo "  -> Stack size: $SIZE  | Threshold: $THRESHOLD"
 
-    local LOG_DIR="tests/random/$SIZE"
+    local LOG_DIR="tests/check_leaks/$SIZE"
     mkdir -p "$LOG_DIR"
 
     for ((i=1; i<=NUM_TESTS; i++)); do
