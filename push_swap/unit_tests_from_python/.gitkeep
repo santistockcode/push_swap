@@ -1,0 +1,3 @@
+# This directory contains Criterion unit test files
+# Commit: *.c test files and this .gitkeep
+# Don't commit: test binaries (test_*)
